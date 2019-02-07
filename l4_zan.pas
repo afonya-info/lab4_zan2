@@ -35,7 +35,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 		line(0,oy,getmaxx,oy);
 		line(ox,0,ox,getmaxy);
 		
-		shlen:=5;//длина штриха должна делиться на 2
+		shlen:=10;//длина штриха должна делиться на 2
 		shy:=oy - shlen div 2;// начальная точка штриха по у
 		shx:=ox - shlen div 2;
 		dox:=20;
