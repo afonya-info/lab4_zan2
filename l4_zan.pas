@@ -45,7 +45,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
     setusercharsize(4,50,150,1000); 
 			
 		xgn:=0.01;
-		dx:=0.5;//0.01
+		dx:=0.01;//0.01
 		colo:=2;
 		setcolor(colo);
 		begx:=0;
