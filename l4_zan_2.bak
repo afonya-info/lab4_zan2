@@ -6,11 +6,11 @@ const
 	xarr = 30;
 	yarr = 20;
 
-type
-	masx = array[0..xarr] of integer;
-	masy = array[0..yarr] of integer;
-
-var
+type 
+	masx = array[1..xarr] of integer;
+	masy = array[1..yarr] of integer;
+	
+var 
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
 	gd,gm:integer;
@@ -26,7 +26,7 @@ procedure osi(omx,omy:integer);// послыать занчение масштаба
 begin
 
 	setlinestyle(0,0,3);
-	setcolor(15);
+	setcolor(11);
 	line(0,oy,getmaxx,oy);
 	line(ox,0,ox,getmaxy);
 
@@ -36,16 +36,16 @@ end;
 procedure gra(scx,scy:integer);
 begin	
 end;
-
+	
 begin
   detectgraph(gd,gm);
   initgraph(gd,gm,'');
   ox:=trunc(getmaxx/2);
   oy:=trunc(getmaxy/2);
-
+	
 	mx[0]:=1;
 	my[0]:=100;
-
+	
 	ix:=2;
 	for i := 1 to xarr do begin
 		mx[i]:=ix;
@@ -64,8 +64,8 @@ begin
 	{ix:=-10;// масштаб с индексом 5 mx[5] = 1/10
 	iy:=-20;
 	im:=0;
-	gra(mx[ix],my[iy]); // выведет график
-	repeat
+	gra(mx[ix],my[iy]); // выведет график 
+	repeat 
 		c:= wincrt.readkey;
 		if c = #0 then
 			begin
@@ -114,7 +114,7 @@ begin
 			end
 		else
 			begin
-				case c of
+				case c of 
 					'+':	begin
 									if not(nnew or vylyz ) then begin
 										dec(im);
@@ -132,8 +132,8 @@ begin
 				end;
 			end;
 	until c=#27;}
-	
 	wincrt.readkey;
 	
   closegraph;
+	readln;
 end.
