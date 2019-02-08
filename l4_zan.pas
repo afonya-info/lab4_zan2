@@ -154,7 +154,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					ysrt:=oy-trunc(fxgn);
 					moveto(shx,ysrt);
 					linerel(shlen,0);
-					str(trunc(fxgnt),tx);
+					str((trunc(fxgnt) div 10) * 100,tx);
 					stx:=shx+shlen+2;
 					sty:=ysrt;
 					settextjustify(0,0);
@@ -164,7 +164,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					ysrt:=oy+trunc(fxgn);
 					moveto(shx,ysrt);
 					linerel(shlen,0);
-					str(trunc(fxgnt),tx);
+					str((trunc(fxgnt) div 100) * 100,tx);
 					stx:=shx+shlen+2;
 					sty:=ysrt;
 					settextjustify(0,0);
