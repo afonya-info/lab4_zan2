@@ -21,7 +21,9 @@ var
   maxm:string;
 	
 procedure osi(omx,omy:integer);// послыать занчение масштаба
-	//var
+	var
+		ios,xr:integer;
+		tx:string;
 		
 begin
 
@@ -29,6 +31,37 @@ begin
 	setcolor(15);
 	line(0,oy,getmaxx,oy);
 	line(ox,0,ox,getmaxy);
+	
+	line(ox-5,20,ox,0);
+	line(ox+5,20,ox,0);
+	line(getmaxx-20,oy-5,getmaxx,oy);
+	line(getmaxx-20,oy+5,getmaxx,oy);
+	
+	settextjustify(0,0);
+	settextstyle(1,0,2);
+	outtextxy(ox+15,20,'Y');
+	
+	settextjustify(0,2);
+	settextstyle(1,0,2);
+	outtextxy(getmaxx-20,oy +15,'X');
+
+	settextjustify(2,2);
+	settextstyle(1,0,1);
+	outtextxy(ox - 5,oy + 5,'0');
+	
+	str(ox,tx);
+	settextjustify(0,2);
+	settextstyle(1,0,2);
+	outtextxy(10,10,tx);
+	
+	xr:=0;
+	for ios:= ox to getmaxx do begin
+		if ((xr mod 20) = 0) and (xr <> 0) then begin
+			line(ox+xr,oy+7,ox+xr,oy);
+		end;
+		inc(xr);
+	end;
+	
 
 end;
 	
