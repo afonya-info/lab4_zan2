@@ -26,8 +26,10 @@ var
 procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 	var iosi,xsrt,xstr_,ysrt,colo,dox,doy,shlen,shy,shx,stx,sty,begx,begy: integer;
 			dx,xgm,xgn,fxgn,fxgnt: real;
-			txn,txm,ty,res,tx,tyt:string;
+			txn,txm,ty,res,tx,tyt,kost:string;
+			foo:boolean;
 	begin
+	foo:=true;
 		if not fkos then// есил линии не выплзли тогда очищать экран, а если выползли значит я вызваю функцию как костыль 
 			cleardevice;
 			
@@ -112,15 +114,27 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 				fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*nty*ntmy;
 				fxgnt:= (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134);
 				
-				// ----------------------
+				if (trunc(fxgn) mod 20 = 0) and (foo) then begin
+					foo:=false;
+					ysrt:=oy-trunc(fxgn);
+					moveto(shx,ysrt);
+					linerel(shlen,0);
+					{str(trunc(xgn),tx);
+					stx:=xsrt+1;
+					sty:=shy+shlen+2;}
+				end;
+				if not foo and (trunc(fxgn) mod 20 <> 0) then foo:=true;
 				
-					if ((xgn>=3) and (xgn <= 6)) then begin
-					setcolor(3);
+				// ----------------------DBG---------------
+				
+					//if ((abs((trunc(fxgnt))mod 100) <= 10)and {((((trunc(fxgnt))div 10) mod 10 )<2) and} (xgn <= 5)) then begin
+					{setcolor(3);
 					str(fxgn:10:3,ty);
 					str(xgn:5:2,txn);
 					str(xgm:5:2,txm);
-					str(fxgnt:10:2,tyt);
-					res:=tyt+'|'+ty+'('+txn+'|'+txm+')';
+					str(trunc(fxgnt),tyt);
+					str(((trunc(fxgnt))div 10) mod 10,kost);
+					res:=tyt+'|'+ty+'('+txn+'|'+txm+')'+'/'+kost+'\';
 					settextstyle(1,0,0);
 					settextjustify(0,2);
 					outtextxy(0+begx,0+begy,res);
@@ -132,9 +146,10 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 						begx:=begx+300;
 					end;
 					setcolor(col);
-				end;
+				end;}
 				
-				//------------------------
+				//------------------------DBG-----------------
+				
 				
 				
 				
