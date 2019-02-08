@@ -108,6 +108,10 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					
 				end;
 				
+				{xgm:=xgn*ntx*ntmx;
+				fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*nty*ntmy;}
+				
+				
 				
 				{fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*nty*ntmy;
 				if (fxgn > 0) and ()then begin
@@ -130,7 +134,9 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 				xgn:=xgn + dx;
 			end;
 			
+		{for iosi:= oy downto 5 do begin
 			
+		end;}
 		
 			
 		
@@ -178,6 +184,8 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 				xgn:=xgn + dx;
 		end;}
 		
+		
+		
 	end;
 	
 	
@@ -185,7 +193,7 @@ procedure gra(scx,scy,scmx,scmy: real);
 	var dx,xgn,xgm,x1,y1,fxgn,fxgnt : real;
 			igra,dlx,dly,rd,begx,begy:integer;
 			col:word;
-			tx:string;
+			txn,txm,ty,res,tx:string;
 	begin
 		xgn:=-80;
 		dx:=0.5;// раньше dx = 0.01
@@ -211,18 +219,21 @@ procedure gra(scx,scy,scmx,scmy: real);
 				fxgnt:= (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134);
 				y:=oy - trunc(fxgn);
 				
-				if ((xgn>= 18) and (xgn <= 20)) then begin
+				if ((xgn>= -20) and (xgn <= 30)) then begin
 					setcolor(3);
-					str(fxgn:10:3,tx);
+					str(fxgn:10:3,ty);
+					str(xgn:5:2,txn);
+					str(xgm:5:2,txm);
+					res:=ty+'('+txn+'|'+txm+')';
 					settextstyle(1,0,0);
 					settextjustify(0,2);
-					outtextxy(0+begx,0+begy,tx);
-					if begy + 5 < getmaxy then	
+					outtextxy(0+begx,0+begy,res);
+					if begy + 15 < getmaxy then	
 						begy:=begy+10             ///////// отладка 
 					else 
 					begin
 						begy:=0;
-						begx:=begx+100;
+						begx:=begx+200;
 					end;
 					setcolor(col);
 				end;
