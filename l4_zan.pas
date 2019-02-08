@@ -64,6 +64,8 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 						stx:=xsrt+1;
 						sty:=shy+shlen+2;
 						
+						
+						
 						if (tx = '40') and (stx < (getmaxx-20)) then //ограничение по 80
 							vylrx:=true
 						else	
@@ -127,6 +129,9 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					end;}
 				xgn:=xgn + dx;
 			end;
+			
+			
+		
 			
 		
 			
@@ -206,9 +211,9 @@ procedure gra(scx,scy,scmx,scmy: real);
 				fxgnt:= (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134);
 				y:=oy - trunc(fxgn);
 				
-				{if ((xgn>= 4) and (xgn <= 5)) then begin
+				if ((xgn>= 18) and (xgn <= 20)) then begin
 					setcolor(3);
-					str(fxgnt:10:3,tx);
+					str(fxgn:10:3,tx);
 					settextstyle(1,0,0);
 					settextjustify(0,2);
 					outtextxy(0+begx,0+begy,tx);
@@ -220,7 +225,7 @@ procedure gra(scx,scy,scmx,scmy: real);
 						begx:=begx+100;
 					end;
 					setcolor(col);
-				end;}
+				end;
 				{if y mod 100 = 0 then	begin
 					str(y,tx);
 					settextstyle(1,0,0);
