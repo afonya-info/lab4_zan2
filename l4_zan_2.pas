@@ -85,23 +85,27 @@ begin
 	
 	xr:=0;
 	xoi:=omy;
-	for ios:= oy to 0 do begin
+	str(omy,tx);
+	settextjustify(0,2);
+	settextstyle(1,0,2);
+	outtextxy(10,150,tx);
+	for ios:= oy downto 0 do begin
 		if ((xr mod 40) = 0) and (xr <> 0) then begin
-			line(ox-7,oy+xr,ox,oy+xr);
+			line(ox-7,oy-xr,ox,oy-xr);
 			
-			{str(xoi,tx);
-			settextjustify(1,2);
-			settextstyle(1,1,1);
-			outtextxy(ox + xr,oy + 10,tx);
+			str(xoi,tx);
+			settextjustify(2,0);
+			settextstyle(1,0,1);
+			outtextxy(ox - 9,oy - xr+4,tx);
 			
-			line(ox-xr,oy+7,ox-xr,oy);
+			{line(ox-xr,oy+7,ox-xr,oy);
 			
 			str(xoi,tx);
 			settextjustify(1,2);
 			settextstyle(1,1,1);
-			outtextxy(ox - xr,oy + 10,'-'+tx);
+			outtextxy(ox - xr,oy + 10,'-'+tx);}
 			
-			xoi:=xoi+omx;}
+			xoi:=xoi+omy;
 		
 		end;
 		inc(xr);
