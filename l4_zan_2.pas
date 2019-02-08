@@ -22,7 +22,7 @@ var
 	
 procedure osi(omx,omy:integer);// послыать занчение масштаба
 	var
-		ios,xr:integer;
+		ios,xr,xoi:integer;
 		tx:string;
 		
 begin
@@ -54,13 +54,60 @@ begin
 	settextstyle(1,0,2);
 	outtextxy(10,10,tx);
 	
+	str(oy,tx);
+	settextjustify(0,2);
+	settextstyle(1,0,2);
+	outtextxy(10,50,tx);
+	
 	xr:=0;
+	xoi:=omx;
 	for ios:= ox to getmaxx do begin
-		if ((xr mod 20) = 0) and (xr <> 0) then begin
+		if ((xr mod 40) = 0) and (xr <> 0) then begin
 			line(ox+xr,oy+7,ox+xr,oy);
+			
+			str(xoi,tx);
+			settextjustify(1,2);
+			settextstyle(1,1,1);
+			outtextxy(ox + xr,oy + 10,tx);
+			
+			line(ox-xr,oy+7,ox-xr,oy);
+			
+			str(xoi,tx);
+			settextjustify(1,2);
+			settextstyle(1,1,1);
+			outtextxy(ox - xr,oy + 10,'-'+tx);
+			
+			xoi:=xoi+omx;
+		
 		end;
 		inc(xr);
 	end;
+	
+	xr:=0;
+	xoi:=omy;
+	for ios:= oy to 0 do begin
+		if ((xr mod 40) = 0) and (xr <> 0) then begin
+			line(ox-7,oy+xr,ox,oy+xr);
+			
+			{str(xoi,tx);
+			settextjustify(1,2);
+			settextstyle(1,1,1);
+			outtextxy(ox + xr,oy + 10,tx);
+			
+			line(ox-xr,oy+7,ox-xr,oy);
+			
+			str(xoi,tx);
+			settextjustify(1,2);
+			settextstyle(1,1,1);
+			outtextxy(ox - xr,oy + 10,'-'+tx);
+			
+			xoi:=xoi+omx;}
+		
+		end;
+		inc(xr);
+	end;
+	
+	
 	
 
 end;
@@ -92,7 +139,7 @@ begin
 	end;
 
 	
-	osi(mx[2],mx[4]);
+	osi(mx[0],mx[4]);
 	
 	{ix:=-10;// масштаб с индексом 5 mx[5] = 1/10
 	iy:=-20;
