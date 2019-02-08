@@ -55,7 +55,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 		begy:=0;
 		while xgn<= 41  do
 			begin				
-				{if (trunc(frac(xgn)*10) = 0) and (trunc(frac(xgn)*100) = 0)  then // число храниться не точно, такой костыль 
+				if (trunc(frac(xgn)*10) = 0) and (trunc(frac(xgn)*100) = 0)  then // число храниться не точно, такой костыль 
 					begin
 						
 						xgm:=xgn*ntx*ntmx;//одновременно и по иксу и синхронное масштаиброание все учитывется одной формулой
@@ -99,7 +99,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 						outtextxy(stx,sty,tx);
 						
 				//if xgn>81 then
-				str(xgn:10:3,tx);
+				{str(xgn:10:3,tx);
 				settextstyle(1,0,0);
 				settextjustify(0,2);
 				outtextxy(0+begx,0+begy,tx);
@@ -109,9 +109,9 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					begin
 						begy:=0;
 						begx:=begx+45;
-					end;
+					end;}
 					
-				end;}
+				end;
 				
 				
 
@@ -120,7 +120,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 				fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*nty*ntmy;
 				fxgnt:= (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134);
 				
-				if ((trunc(xgm) mod 20) = 0) and (trunc(xgm) > 0) and foox then begin
+				{if ((trunc(xgm) mod 20) = 0) and (trunc(xgm) > 0) and foox then begin
 					
 					foox:=false;
 					xsrt:=ox + trunc(xgm);
@@ -135,7 +135,7 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					settextstyle(1,1,0);
 					outtextxy(stx,sty,tx);
 					
-					{ysrt:=oy-trunc(fxgn);
+					ysrt:=oy-trunc(fxgn);
 					moveto(shx,ysrt);
 					linerel(shlen,0);
 					str(trunc(fxgnt),tx);
@@ -143,11 +143,11 @@ procedure osi(ntx,nty,ntmx,ntmy:real);// послыать занчение масштаба
 					sty:=ysrt;
 					settextjustify(0,0);
 					settextstyle(1,0,0);
-					outtextxy(stx+1,sty+5,tx);}
+					outtextxy(stx+1,sty+5,tx);
 				
 				end;
 				
-				if not foox and (trunc(xgm) mod 20 <> 0) then foox:=true;
+				if not foox and (trunc(xgm) mod 20 <> 0) then foox:=true;}
 				
 				if (trunc(fxgn) mod 20 = 0) and( trunc(fxgn) > 0) and (foo) then begin
 					foo:=false;
