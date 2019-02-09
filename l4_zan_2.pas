@@ -140,7 +140,7 @@ begin
 	end;
 
 	ix:=0;
-	iy:=4;
+	iy:=6;
 	osi(mx[ix],my[iy]);
 	
 	repeat
@@ -191,22 +191,24 @@ begin
 			end
 		else
 			begin
-				{case c of
+				case c of
 					'+':	begin
-									if not(nnew or vylyz ) then begin
-										dec(im);
+									if ((ix - 1) >=0) and ((iy -1)>=0)then begin
+										dec(ix);
+										dec(iy);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);
+										//gra(mx[ix],my[iy]);
 									end;
 								end;
 					'-':	begin
-									if not (vylrx or vyly) then begin
-										inc(im);
+									if ((ix + 1) <=  xarr) and ((iy +1) <=yarr)then begin
+										inc(ix);
+										inc(iy);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);									
+										//gra(mx[ix],my[iy]);									
 									end;
 								end;
-				end;}
+				end;
 			end;
 	until c=#27;
 	
