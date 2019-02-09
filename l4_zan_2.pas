@@ -9,13 +9,15 @@ const
 type
 	masx = array[0..xarr] of integer;
 	masy = array[0..yarr] of longint;
+	pixels = array [-800..800] of integer;
 
 var
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
+	xpix,ypix:pixels;
 	gd,gm:integer;
   ox,oy,ch,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im:integer;
-	m,j: real;
+	m,j,stex,stey: real;
 	c: char;
 	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
   maxm:string;
@@ -27,6 +29,9 @@ procedure osi(omx:integer;omy:longint);// послыать занчение масштаба
 		
 begin
 	cleardevice;
+	
+	stex:=omx/40;//шаг
+	stey:=omy/40;//шаг
 
 	setlinestyle(0,0,3);
 	setcolor(15);
@@ -50,12 +55,12 @@ begin
 	settextstyle(1,0,1);
 	outtextxy(ox - 5,oy + 5,'0');
 	
-	str(ox,tx);
+	str(getmaxx,tx);
 	settextjustify(0,2);
 	settextstyle(1,0,2);
 	outtextxy(10,10,tx);
 	
-	str(oy,tx);
+	str(getmaxy,tx);
 	settextjustify(0,2);
 	settextstyle(1,0,2);
 	outtextxy(10,50,tx);
@@ -114,8 +119,29 @@ begin
 end;
 	
 	
-procedure gra(scx,scy:integer);
+procedure gra(scx:integer;scy:longint);
+	var
+		stex,stey,ygra,xgra,mgra,ngra: real;
+		igra:integer;
 begin	
+	stex:=scx/40;//шаг 40 пикселей в одном делении
+	stey:=scy/40;//шаг
+	
+	igra:=-767;
+	mgra:=ox+(igra/abs(igra))*xpix[igra];
+	xgra:=mgra*stex*(igra/abs(igra));
+	ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
+	ngra:= ygra/stey;
+	moveto(trunc(mgra),trunc(ngra));
+	
+	for igra:= -766 to 767 do begin
+		mgra:=ox+(igra/abs(igra))*xpix[igra];
+		xgra:=mgra*stex*(igra/abs(igra));
+		ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
+		ngra:= ygra/stey;
+		lineto(trunc(mgra),trunc(ngra));
+	end;
+	
 end;
 
 begin
@@ -123,7 +149,19 @@ begin
   initgraph(gd,gm,'');
   ox:=trunc(getmaxx/2);
   oy:=trunc(getmaxy/2);
-
+	
+	ix:=1;
+	for i:= -767 to 767 do begin
+		xpix[i]:=ix;
+		inc(ix);
+	end;
+	
+	ix:=1;
+	for i:= 400 downto -400 do begin
+		ypix[i]:=ix;
+		inc(ix);
+	end;
+	
 	mx[0]:=1;
 	my[0]:=100;
 
@@ -153,21 +191,21 @@ begin
 									if (ix - 1) >=0 then begin
 										dec(ix);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);
+										gra(mx[ix],my[iy]);
 									end;									
 								end;
 					#77:	begin// вправо
 									if (ix + 1) <=  xarr then begin
 										inc(ix);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);
+										gra(mx[ix],my[iy]);
 									end;
 								end;
 					#72:	begin//вверх
 									if (iy -1)>=0 then begin
 										dec(iy);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);									
+										gra(mx[ix],my[iy]);									
 									end;
 
 								end;
@@ -175,7 +213,7 @@ begin
 									if (iy +1) <=yarr then begin
 										inc(iy);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);	
+										gra(mx[ix],my[iy]);	
 									end;
 								
 								end;
@@ -184,7 +222,7 @@ begin
 									iy:=6;
 									
 									osi(mx[ix],my[iy]);
-									//gra(mx[ix],my[iy]);
+									gra(mx[ix],my[iy]);
 									
 								end;
 				end;
@@ -197,7 +235,7 @@ begin
 										dec(ix);
 										dec(iy);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);
+										gra(mx[ix],my[iy]);
 									end;
 								end;
 					'-':	begin
@@ -205,7 +243,7 @@ begin
 										inc(ix);
 										inc(iy);
 										osi(mx[ix],my[iy]);
-										//gra(mx[ix],my[iy]);									
+										gra(mx[ix],my[iy]);									
 									end;
 								end;
 				end;
