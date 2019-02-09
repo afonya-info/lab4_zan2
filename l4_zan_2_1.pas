@@ -10,16 +10,18 @@ type
 	masx = array[0..xarr] of integer;
 	masy = array[0..yarr] of longint;
 	pixels = array [-800..800] of integer;
-	
-
+	masar = array[1..2000] of integer;
+	check = record
+		x:masar;
+		y:masar;
+	end;
 var
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
 	xpix,ypix:pixels;
-	checkx: array [1..2000] of integer;
-	checky: array [1..1000] of integer;
+	ch:check;
 	gd,gm:integer;
-  ox,oy,ch,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im:integer;
+  ox,oy,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im:integer;
 	m,j,stex,stey: real;
 	c: char;
 	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
@@ -125,21 +127,28 @@ end;
 procedure gra(scx:integer;scy:longint);
 	var
 		stex,stey,ygra,xgra,mgra,ngra: real;
-		igra,ii:integer;
+		igra,ii,begy,begx:integer;
+		tx,ty,res:string;
 begin	
 	stex:=scx/40;//шаг 40 пикселей в одном делении
 	stey:=scy/40;//шаг
+		begx:=0;
+		begy:=0;
 	
 	setlinestyle(0,0,3);
 	setcolor(2);
 	
 	igra:=-766;
+	ii:=1;
 	mgra:=ox + igra;
 	xgra:=igra*stex;
 	ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
 	ngra:= ygra/stey;
-	if ypix[trunc(ngra)] <=getmaxy then
-		moveto(trunc(mgra),ypix[trunc(ngra)]);
+	ch.x[ii]:=trunc(mgra);
+	ch.y[ii]:=ypix[trunc(ngra)];
+	inc(ii);
+	{if ypix[trunc(ngra)] <=getmaxy then
+		moveto(trunc(mgra),ypix[trunc(ngra)]);}
 
 	for igra:= -765 to 760 do begin
 		if igra <> 0 then begin
@@ -147,9 +156,30 @@ begin
 			xgra:=mgra*stex*(igra/abs(igra));
 			ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
 			ngra:= ygra/stey;
-			if ypix[trunc(ngra)] <=getmaxy then
-				lineto(trunc(mgra),ypix[trunc(ngra)]);
+			ch.x[ii]:=trunc(mgra);
+			ch.y[ii]:=ypix[trunc(ngra)];
+			inc(ii);
+			{if ypix[trunc(ngra)] <=getmaxy then
+				lineto(trunc(mgra),ypix[trunc(ngra)]);}
 		end;
+	end;
+						setcolor(3);
+	for ii:=1 to 1535 do begin
+				
+
+					str(ch.x[ii],tx);
+					str(ch.y[ii],ty);
+					res:=ty+'('+tx+')';
+					settextstyle(1,0,0);
+					settextjustify(0,2);
+					outtextxy(0+begx,0+begy,res);
+					if begy + 15 < getmaxy then	
+						begy:=begy+10             ///////// отладка 
+					else 
+					begin
+						begy:=0;
+						begx:=begx+100;
+					end;
 	end;
 	
 end;

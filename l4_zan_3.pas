@@ -5,15 +5,24 @@ uses crt,graph,wincrt;
 const
 	xarr = 30;
 	yarr = 20;
+	lxm = -1000;
+	rxm = 1000;
 
 type
 	masx = array[0..xarr] of integer;
 	masy = array[0..yarr] of longint;
 	pixels = array [-800..800] of integer;
+	mas = array[lxm..rxm] of real;
+	mmsc = record
+		x:mas;
+		y:mas;
+	end;
 
 var
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
+	mnx,mny:mas;
+	mni:mmsc;
 	xpix,ypix:pixels;
 	gd,gm:integer;
   ox,oy,ch,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im:integer;
@@ -118,38 +127,110 @@ begin
 
 end;
 	
-	
-procedure gra(scx:integer;scy:longint);
-	var
-		stex,stey,ygra,xgra,mgra,ngra: real;
-		igra:integer;
-begin	
-	stex:=scx/40;//шаг 40 пикселей в одном делении
-	stey:=scy/40;//шаг
-	
-	setlinestyle(0,0,3);
-	setcolor(2);
-	
-	igra:=-766;
-	mgra:=ox + igra;
-	xgra:=igra*stex;
-	ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
-	ngra:= ygra/stey;
-	if ypix[trunc(ngra)] <=getmaxy then
-		moveto(trunc(mgra),ypix[trunc(ngra)]);
+procedure gra(scx,scy,scmx,scmy: real);
+	var dx,xgn,xgm,x1,y1,fxgn,fxgnt : real;
+			igra,dlx,dly,rd,begx,begy:integer;
+			col:word;
+			txn,txm,ty,res,tx:string;
+	begin
+		xgn:=-80;
+		dx:=0.5;// раньше dx = 0.01
+		col:=4;//red
+		setcolor(col);
+				
+		xgm:=xgn*scx*scmx;//одновременно и по иксу и синхронное масштаиброание все учитывется одной формулой
+		x:=ox + trunc(xgm);
+		fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*scy*scmy;
+		y:=oy - trunc(fxgn);
+		//putpixel(x,y,red);
+		moveto(x,y);
+				
+		begx:=0;
+		begy:=0;
+		
+		while xgn<=80 do
+			begin
+				xgn:=xgn+dx;
+				xgm:=xgn*scx*scmx;//одновременно и по иксу и синхронное масштаиброание все учитывется одной формулой
+				x:=ox + trunc(xgm);
+				fxgn := (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134)*scy*scmy;
+				fxgnt:= (4 * xgn * xgn * xgn - 25 * xgn * xgn + 491 * xgn - 2134);
+				y:=oy - trunc(fxgn);
+				
+				{if ((xgn>= -20) and (xgn <= 30)) then begin
+					setcolor(3);
+					str(fxgn:10:3,ty);
+					str(xgn:5:2,txn);
+					str(xgm:5:2,txm);
+					res:=ty+'('+txn+'|'+txm+')';
+					settextstyle(1,0,0);
+					settextjustify(0,2);
+					outtextxy(0+begx,0+begy,res);
+					if begy + 15 < getmaxy then	
+						begy:=begy+10             ///////// отладка 
+					else 
+					begin
+						begy:=0;
+						begx:=begx+200;
+					end;
+					setcolor(col);
+				end;}
+				{if y mod 100 = 0 then	begin
+					str(y,tx);
+					settextstyle(1,0,0);
+					settextjustify(0,2);
+					outtextxy(0+begx,0+begy,tx);
+					if begy + 5 < getmaxy then	
+						begy:=begy+10             ///////// отладка 
+					else 
+					begin
+						begy:=0;
+						begx:=begx+100;
+					end;
+				end;}
+				lineto(x,y);
+			end;
+			
+			if fxgn >=130000 then 
+				vyly:=true
+			else
+				vyly:=false;
+			
+			if fxgn <=4300 then
+				vylyz:=true
+			else
+				vylyz:=false;
+				
+					str(fxgn:20:3,tx);
+					settextjustify(2,2);// правое выравнивание
+					settextstyle(1,0,2);
+					tx:=''+tx;
+					outtextxy(ox,oy,tx);
+		
+			
+		dlx:= ox - 1;
+		dly:= oy - 1;
+		for igra:= dlx downto 0 do//убирание лишних полос
+			begin
+				if getpixel(igra,dly) = col then
+					begin
+						setcolor(0);//black
+						bar(0,0,igra,getmaxy);//сотрет лишние линии
+						fkos:=true;
+						osi(mx[ix],my[iy],mm.x[im],mm.y[im]);
+						fkos:=false;
+					end;
+			end;
+		
+		dlx:=ox +1;
+		while (getpixel(dlx,0) <> col) and (dlx <=getmaxx) do // ищет х графика в самом верху
+			inc(dlx);
+		setcolor(0);
+		bar(dlx+1,0,getmaxx,getmaxy);
+		fkos:=true;
+		osi(mx[ix],my[iy],mm.x[im],mm.y[im]);
+		fkos:=false;
 
-	for igra:= -765 to 760 do begin
-		if igra <> 0 then begin
-			mgra:=ox+(igra/abs(igra))*xpix[igra];
-			xgra:=mgra*stex*(igra/abs(igra));
-			ygra:=(4 * xgra * xgra * xgra - 25 * xgra * xgra + 491 * xgra - 2134);
-			ngra:= ygra/stey;
-			if ypix[trunc(ngra)] <=getmaxy then
-				lineto(trunc(mgra),ypix[trunc(ngra)]);
-		end;
-	end;
-	
-end;
 
 begin
   detectgraph(gd,gm);
@@ -183,6 +264,8 @@ begin
 		my[i]:=iy;
 		iy:=iy+200;
 	end;
+	
+	
 
 	ix:=0;
 	iy:=6;

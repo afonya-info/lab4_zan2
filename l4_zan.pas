@@ -410,11 +410,11 @@ begin
 			my[i]:=j;
 			j:=j+3;
 		end;
-	j:=10;
+	j:=5;
 	for i:= 1 to rxm do
 		begin
 			mx[i]:=1/j;
-			j:=j+10;
+			j:=j+5;
 		end;
 	j:=1.5;
 	for i:= -1 downto lxm do
@@ -424,11 +424,11 @@ begin
 			j:=j+3;
 		end;
 		
-	j:=10;	
+	j:=5;	
 	for i:= -1 downto lxm do
 		begin
 			mx[i]:=j;
-			j:=j+10;
+			j:=j+5;
 		end;		
 		
 	j:=1.5;	
