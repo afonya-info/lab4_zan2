@@ -265,7 +265,59 @@ begin
 		iy:=iy+200;
 	end;
 	
+	fkos:=false;
+	vylrx:=false;
+	vylox:=false;
+	vyly:=false;
+	vylyz:=false;
+	nnew:=false;
+	mnx[0]:=1;
+	mny[0]:=1;
+	mni.x[0]:=1;
+	mni.y[0]:=1;
 	
+	j:=1.5;
+	for i:= 1 to rxm do
+		begin
+			//mx[i]:=1/j;
+			my[i]:=j;
+			j:=j+3;
+		end;
+	j:=10;
+	for i:= 1 to rxm do
+		begin
+			mx[i]:=1/j;
+			j:=j+10;
+		end;
+	j:=1.5;
+	for i:= -1 downto lxm do
+		begin
+			//mx[i]:=j;
+			my[i]:=1/j;
+			j:=j+3;
+		end;
+		
+	j:=10;	
+	for i:= -1 downto lxm do
+		begin
+			mx[i]:=j;
+			j:=j+10;
+		end;		
+		
+	j:=1.5;	
+	for i:= 1 to rxm do
+		begin
+			mm.x[i]:=1/j;
+			mm.y[i]:=1/j;
+			j:=j+0.05;
+		end;
+	j:=1.5;
+	for i:= -1 downto lxm do
+		begin
+			mm.x[i]:=j;
+			mm.y[i]:=j;
+			j:=j+0.05;
+		end;
 
 	ix:=0;
 	iy:=6;
