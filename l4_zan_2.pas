@@ -8,7 +8,7 @@ const
 
 type
 	masx = array[0..xarr] of integer;
-	masy = array[0..yarr] of integer;
+	masy = array[0..yarr] of longint;
 
 var
 	mx:masx;// вспомогательный массив для масшатбов
@@ -20,12 +20,13 @@ var
 	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
   maxm:string;
 	
-procedure osi(omx,omy:integer);// послыать занчение масштаба
+procedure osi(omx:integer;omy:longint);// послыать занчение масштаба
 	var
-		ios,xr,xoi:integer;
+		ios,xr,xoi:longint;
 		tx:string;
 		
 begin
+	cleardevice;
 
 	setlinestyle(0,0,3);
 	setcolor(15);
@@ -138,13 +139,10 @@ begin
 		iy:=iy+200;
 	end;
 
+	ix:=0;
+	iy:=4;
+	osi(mx[ix],my[iy]);
 	
-	osi(mx[0],my[4]);
-	
-	{ix:=-10;// масштаб с индексом 5 mx[5] = 1/10
-	iy:=-20;
-	im:=0;
-	gra(mx[ix],my[iy]); // выведет график
 	repeat
 		c:= wincrt.readkey;
 		if c = #0 then
@@ -152,49 +150,48 @@ begin
 				c:= wincrt.readkey;
 				case c of
 					#75:	begin// стр влево растяжение
-									if (not nnew) then begin
+									if (ix - 1) >=0 then begin
 										dec(ix);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);
+										//gra(mx[ix],my[iy]);
 									end;									
 								end;
-					#77:	begin
-									if not vylrx then begin
+					#77:	begin// вправо
+									if (ix + 1) <=  xarr then begin
 										inc(ix);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);
+										//gra(mx[ix],my[iy]);
 									end;
 								end;
-					#72:	begin
-									if not vylyz then begin
+					#72:	begin//вверх
+									if (iy -1)>=0 then begin
 										dec(iy);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);									
+										//gra(mx[ix],my[iy]);									
 									end;
 
 								end;
-					#80:	begin//стр вниз растяжение
-									if not vyly then begin
+					#80:	begin//вниз 
+									if (iy +1) <=yarr then begin
 										inc(iy);
 										osi(mx[ix],my[iy]);
-										gra(mx[ix],my[iy]);	
+										//gra(mx[ix],my[iy]);	
 									end;
 								
 								end;
-					#83:	begin// нормальный масштаб
-									ix:=-10;
-									iy:=-20;
-									im:=0;
+					#83:	begin// del нормальный масштаб
+									ix:=0;
+									iy:=6;
 									
 									osi(mx[ix],my[iy]);
-									gra(mx[ix],my[iy]);
+									//gra(mx[ix],my[iy]);
 									
 								end;
 				end;
 			end
 		else
 			begin
-				case c of
+				{case c of
 					'+':	begin
 									if not(nnew or vylyz ) then begin
 										dec(im);
@@ -209,9 +206,9 @@ begin
 										gra(mx[ix],my[iy]);									
 									end;
 								end;
-				end;
+				end;}
 			end;
-	until c=#27;}
+	until c=#27;
 	
 	wincrt.readkey;
 	
