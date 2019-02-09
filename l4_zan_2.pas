@@ -85,10 +85,6 @@ begin
 	
 	xr:=0;
 	xoi:=omy;
-	str(omy,tx);
-	settextjustify(0,2);
-	settextstyle(1,0,2);
-	outtextxy(10,150,tx);
 	for ios:= oy downto 0 do begin
 		if ((xr mod 40) = 0) and (xr <> 0) then begin
 			line(ox-7,oy-xr,ox,oy-xr);
@@ -98,12 +94,12 @@ begin
 			settextstyle(1,0,1);
 			outtextxy(ox - 9,oy - xr+4,tx);
 			
-			{line(ox-xr,oy+7,ox-xr,oy);
+			line(ox-7,oy+xr,ox,oy+xr);
 			
 			str(xoi,tx);
-			settextjustify(1,2);
-			settextstyle(1,1,1);
-			outtextxy(ox - xr,oy + 10,'-'+tx);}
+			settextjustify(2,0);
+			settextstyle(1,0,1);
+			outtextxy(ox - 9,oy + xr+4,'-'+tx);
 			
 			xoi:=xoi+omy;
 		
@@ -143,7 +139,7 @@ begin
 	end;
 
 	
-	osi(mx[0],mx[4]);
+	osi(mx[0],my[4]);
 	
 	{ix:=-10;// масштаб с индексом 5 mx[5] = 1/10
 	iy:=-20;
