@@ -21,7 +21,7 @@ var
 	my:masy;
 	ch:check;
 	gd,gm:integer;
-  ox,oy,ch,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im,xamo:integer;
+  ox,oy,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im,xamo:integer;
 	m,j,stex,stey: real;
 	c: char;
 	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
