@@ -255,8 +255,9 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		xp, yp, gx, gy, cx, cy: real;
-		igra, ii, posx, posy, runxm, runxp: longint;
+		axp, ayp, agx, agy, bxp, byp, bgx, bgy, cx, cy: real;
+		igra, ii, aposx, aposy, runxm, runxp,bposx,bposy: longint;
+		ertx:string;
 
 begin
 	cx := hsx / 40;//шаг 40 пикселей в одном делении
@@ -264,30 +265,44 @@ begin
 	setlinestyle(0,0,1);
 	setcolor(2);
 	
-	xp:=a/cx;
-	gx := cx * xp;
-  posx := ox + trunc(xp);  
-  gy := fun(gx);
-  yp := gy / cy;
-  posy := trunc(-yp) + oy;
+	axp:=a/cx;
+	agx := cx * axp;
+  aposx := ox + trunc(axp);  
+  agy := fun(agx);
+  ayp := agy / cy;
+  aposy := trunc(-ayp) + oy;
 	
-	if (a <= hsx*xamo) and (a>=root) then
+	bxp:=b/cx;
+	bgx := cx * bxp;
+  bposx := ox + trunc(bxp);  
+  bgy := fun(bgx);
+  byp := bgy / cy;
+  bposy := trunc(-byp) + oy;
+	
+	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4)then
 	begin
-		line(posx,oy,posx,posy);
-	end;
-	
-	//floodfill(posx+1,posy+1,2);
-	
-	xp:=b/cx;
-	gx := cx * xp;
-  posx := ox + trunc(xp);  
-  gy := fun(gx);
-  yp := gy / cy;
-  posy := trunc(-yp) + oy;
-	
-	if (b<=hsx*xamo)and(b>=root)then
+		if (a <= hsx*xamo) and (a>=root) then
+		begin
+			line(aposx,oy,aposx,aposy);
+		end;
+		
+		if (b<=hsx*xamo)and(b>=root)then
+		begin
+			line(bposx,oy,bposx,bposy);
+		end;
+		
+		begin
+			line(aposx,oy-2,bposx,oy-2);
+			setfillstyle(3,5);
+			floodfill(aposx+3,aposy+3,2);
+		end
+	end
+	else
 	begin
-		line(posx,oy,posx,posy);
+		settextjustify(0, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(100, 100, 'hatch is not available');
+		outtextxy(100, 120, ' at the current scale');
 	end;
 	
 end;
@@ -352,9 +367,9 @@ begin
     
   end;
   
-  hx := scx;
+  {hx := scx;
   hy := scy;
-  hatching(hx, hy);
+  hatching(hx, hy);}
   
 end;
 
@@ -459,6 +474,10 @@ begin
               gra(mx[ix], my[iy]);									
             end;
           end;
+				'h':
+					begin
+						hatching(mx[ix], my[iy]);
+					end;
       end;
     end;
   until cg = #27;
