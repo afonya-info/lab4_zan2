@@ -268,22 +268,7 @@ begin
 	
 	flag:=true;
 	
-	if (a<root) and (b>root)then
-	begin
-		axp:=(trunc(root)+1)/cx;
-		agx := cx * axp;
-		aposx := ox + trunc(axp);
-		agy := fun(agx);
-		ayp := agy / cy;
-		aposy := trunc(-ayp) + oy;
-		
-		bxp:=b/cx;
-		bgx := cx * bxp;
-		bposx := ox + trunc(bxp);  
-		bgy := fun(bgx);
-		byp := bgy / cy;
-		bposy := trunc(-byp) + oy;
-		settextjustify(0, 2);
+		{settextjustify(0, 2);
 		settextstyle(1, 0, 2);
 		outtextxy(100, 200, 'a<root and b>root');
 		str(aposx,txa);
@@ -291,48 +276,29 @@ begin
 		str(aposy,txay);
 		str(bposy,txby);
 		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
-		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
-	end
-	else if (a<root) and (b<root) then begin
-		flag:=false;
-		settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		outtextxy(100, 200, 'a<root and b<root');
-		str(aposx,txa);
-		str(bposx,txb);
-		str(aposy,txay);
-		str(bposy,txby);
-		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
-		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
-	end
-	else
-	begin
-		axp:=a/cx;
-		agx := cx * axp;
-		aposx := ox + trunc(axp);  
-		agy := fun(agx);
-		ayp := agy / cy;
-		aposy := trunc(-ayp) + oy;
-		
-		bxp:=b/cx;
-		bgx := cx * bxp;
-		bposx := ox + trunc(bxp);  
-		bgy := fun(bgx);
-		byp := bgy / cy;
-		bposy := trunc(-byp) + oy;
-		flag:=false;
-		settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		outtextxy(100, 200, 'inache');
-		str(aposx,txa);
-		str(bposx,txb);
-		str(aposy,txay);
-		str(bposy,txby);
-		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
-		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
-	end;
+		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);}
 	
-	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4) then
+	if (a<root)and(b<root)then
+		FLAG:=false;
+	{if (a<root) and (b>root) then
+	begin
+		
+	end;}
+	axp:=a/cx;
+	agx := cx * axp;
+	aposx := ox + trunc(axp);  
+	agy := fun(agx);
+	ayp := agy / cy;
+	aposy := trunc(-ayp) + oy;
+	
+	bxp:=b/cx;
+	bgx := cx * bxp;
+	bposx := ox + trunc(bxp);  
+	bgy := fun(bgx);
+	byp := bgy / cy;
+	bposy := trunc(-byp) + oy;
+	
+	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4)and flag then
 	begin
 		if (a <= hsx*xamo) then
 			line(aposx,oy,aposx,aposy);
