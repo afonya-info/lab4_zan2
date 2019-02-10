@@ -4,7 +4,7 @@ uses crt,graph,wincrt;
 
 const
 	xarr = 30;
-	yarr = 40;
+	yarr = 60;
 
 type
 	masx = array[0..xarr] of integer;
