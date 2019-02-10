@@ -302,8 +302,12 @@ begin
 	byp := bgy / cy;
 	bposy := trunc(-byp) + oy;
 	
-	if ((bposx-aposx)>=2)and(((oy-2-aposy)>=4)or flagar)and flag then
+	if ((bposx-aposx)>=2)and(((oy-2-bposy)>=10))and flag then
 	begin
+		settextjustify(0, 2);
+		settextstyle(1, 0, 2);
+		str(oy-2-bposy,txby);
+		outtextxy(100, 200, txby);
 		if (a <= hsx*xamo) then
 			if not flagar then
 				line(aposx,oy,aposx,aposy);
