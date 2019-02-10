@@ -255,9 +255,9 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, agx, agy, bxp, byp, bgx, bgy, cx, cy: real;
-		igra, ii, aposx, aposy, runxm, runxp,bposx,bposy: longint;
-		flag:boolean;
+		axp, ayp, agx, agy, bxp, byp, bgx, rxp,rgx,bgy, cx, cy: real;
+		igra, ii, aposx, aposy, runxm, runxp,bposx,bposy,rposx: longint;
+		flag,flagar:boolean;
 		txa,txb,txay,txby:string;
 begin
 	cx := hsx / 40;//шаг 40 пикселей в одном делении
@@ -267,6 +267,11 @@ begin
 	setcolor(2);
 	
 	flag:=true;
+	flagar:=false;
+	
+	rxp:=root/cx;
+	rgx := cx * rxp;
+	rposx := ox + trunc(rxp); 
 	
 		{settextjustify(0, 2);
 		settextstyle(1, 0, 2);
@@ -280,10 +285,9 @@ begin
 	
 	if (a<root)and(b<root)then
 		FLAG:=false;
-	{if (a<root) and (b>root) then
-	begin
+	if (a<root) and (b>root) then
+		flagar:=true;
 		
-	end;}
 	axp:=a/cx;
 	agx := cx * axp;
 	aposx := ox + trunc(axp);  
@@ -298,10 +302,11 @@ begin
 	byp := bgy / cy;
 	bposy := trunc(-byp) + oy;
 	
-	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4)and flag then
+	if ((bposx-aposx)>=2)and(((oy-2-aposy)>=4)or flagar)and flag then
 	begin
 		if (a <= hsx*xamo) then
-			line(aposx,oy,aposx,aposy);
+			if not flagar then
+				line(aposx,oy,aposx,aposy);
 		
 		if (b<=hsx*xamo)and(b>=root)then
 		begin
@@ -309,9 +314,18 @@ begin
 		end;
 		
 		begin
-			line(aposx,oy-2,bposx,oy-2);
-			setfillstyle(3,5);
-			floodfill(aposx+3,aposy+3,2);
+			if not flagar then 
+			begin
+				line(aposx,oy-2,bposx,oy-2);
+				setfillstyle(3,5);
+				floodfill(bposx-1,oy-3,2);
+			end
+			else
+			begin
+				line(rposx,oy-2,bposx,oy-2);
+				setfillstyle(3,5);
+				floodfill(bposx-1,oy-3,2);
+			end;
 		end
 	end
 	else
