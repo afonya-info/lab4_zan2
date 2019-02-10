@@ -5,35 +5,21 @@ uses crt,graph,wincrt;
 const
 	xarr = 30;
 	yarr = 60;
-	cham = 3;
 	npx=2;
 	npy=36;
 
 type
 	masx = array[0..xarr] of integer;
 	masy = array[0..yarr] of longint;
-	check = record
-		x:array [1..cham] of real;
-		y:array [1..cham] of real;
-		xn:array [1..cham] of string;
-		yn:array [1..cham] of string;
-	end;
 
 	  
 
 var
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
-	ch:array [-1000..1000] of check;
 	gd,gm:integer;
-  ox,oy,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im,xamo:integer;
-	m,j,stex,stey: real;
-	c: char;
-	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
-  maxm:string;
-	tx1,tx2,tx3,tx4,tx5,tx6:string[9];
-	zag:string;
-	f1:text;
+  ox,oy,i,ix,iy,xamo:integer;
+	cg: char;
 	
 procedure osi(omx:integer;omy:longint);// послыать занчение масштаба
 	var
@@ -215,11 +201,11 @@ begin
 	gra(mx[ix],my[iy]);
 	
 	repeat
-		c:= wincrt.readkey;
-		if c = #0 then
+		cg:= wincrt.readkey;
+		if cg = #0 then
 			begin
-				c:= wincrt.readkey;
-				case c of
+				cg:= wincrt.readkey;
+				case cg of
 					#75:	begin// стр влево растяжение
 									if (ix - 1) >=0 then begin
 										dec(ix);
@@ -262,7 +248,7 @@ begin
 			end
 		else
 			begin
-				case c of
+				case cg of
 					'+':	begin
 									if ((ix - 1) >=0) and ((iy -1)>=0)then begin
 										dec(ix);
@@ -281,9 +267,7 @@ begin
 								end;
 				end;
 			end;
-	until c=#27;
+	until cg=#27;
 	
   closegraph;
-
-	
 end.
