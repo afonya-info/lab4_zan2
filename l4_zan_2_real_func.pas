@@ -130,13 +130,25 @@ procedure gra(scx:integer;scy:longint);
 	
 	var
 		xp,yp,gx,gy,cx,cy: real;
-		igra,ii,posx,posy:integer;
+		igra,ii,posx,posy,runxm,runxp:integer;
 begin	
 	cx:=scx/40;//шаг 40 пикселей в одном делении
 	cy:=scy/40;//шаг
 	
 	setlinestyle(0,0,3);
 	setcolor(2);
+	
+	xp:=-1;
+	posy:=oy;
+	while posy<=getmaxy do
+	begin
+		gx:=cx*xp;
+		gy:= 4*gx*gx*gx-25*gx*gx+491*gx-2134;
+		yp:=gy/cy;
+		posy:= trunc(-yp) + oy;
+		runxm:=trunc(xp);
+		xp:=xp-1;
+	end;
 	
 	gx:= - scx*xamo ;//крайнее левое положение
 	xp:=gx/cx;
@@ -166,7 +178,7 @@ begin
 	ch[ii].y[3]:= posy;
 	
 	
-	for igra:= trunc(-(getmaxx/2)) to trunc(getmaxx/2) do 
+	for igra:= runxm to trunc(getmaxx/2) do 
 	begin
 		xp:=igra;
 		gx:=cx*xp;
