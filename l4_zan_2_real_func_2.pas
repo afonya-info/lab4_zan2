@@ -138,7 +138,7 @@ begin
 	setlinestyle(0,0,3);
 	setcolor(2);
 	
-	{xp:=-1;
+	xp:=-1;
 	posy:=oy;
 	while posy<=getmaxy do
 	begin
@@ -160,7 +160,7 @@ begin
 		posy:= trunc(-yp) + oy;
 		runxp:=trunc(xp)+ox;
 		xp:=xp+1;
-	end;}
+	end;
 	{if runxm<0 then
 		runxm:=trunc(-(getmaxx/2));
 	if runxp>trunc(getmaxx/2) then
@@ -196,7 +196,7 @@ begin
 	ch[ii].y[3]:= posy;
 	
 	
-	for igra:= trunc(-(getmaxx/2)) to trunc(getmaxx/2) do 
+	for igra:= runxm to runxp do 
 	begin
 		xp:=igra;
 		gx:=cx*xp;
