@@ -257,34 +257,85 @@ procedure hatching(hsx, hsy: longint);
 	var
 		axp, ayp, agx, agy, bxp, byp, bgx, bgy, cx, cy: real;
 		igra, ii, aposx, aposy, runxm, runxp,bposx,bposy: longint;
-		ertx:string;
-
+		flag:boolean;
+		txa,txb,txay,txby:string;
 begin
 	cx := hsx / 40;//шаг 40 пикселей в одном делении
   cy := hsy / 40;//шаг
+	
 	setlinestyle(0,0,1);
 	setcolor(2);
 	
-	axp:=a/cx;
-	agx := cx * axp;
-  aposx := ox + trunc(axp);  
-  agy := fun(agx);
-  ayp := agy / cy;
-  aposy := trunc(-ayp) + oy;
+	flag:=true;
 	
-	bxp:=b/cx;
-	bgx := cx * bxp;
-  bposx := ox + trunc(bxp);  
-  bgy := fun(bgx);
-  byp := bgy / cy;
-  bposy := trunc(-byp) + oy;
-	
-	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4)then
+	if (a<root) and (b>root)then
 	begin
-		if (a <= hsx*xamo) and (a>=root) then
-		begin
+		axp:=(trunc(root)+1)/cx;
+		agx := cx * axp;
+		aposx := ox + trunc(axp);
+		agy := fun(agx);
+		ayp := agy / cy;
+		aposy := trunc(-ayp) + oy;
+		
+		bxp:=b/cx;
+		bgx := cx * bxp;
+		bposx := ox + trunc(bxp);  
+		bgy := fun(bgx);
+		byp := bgy / cy;
+		bposy := trunc(-byp) + oy;
+		settextjustify(0, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(100, 200, 'a<root and b>root');
+		str(aposx,txa);
+		str(bposx,txb);
+		str(aposy,txay);
+		str(bposy,txby);
+		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
+		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
+	end
+	else if (a<root) and (b<root) then begin
+		flag:=false;
+		settextjustify(0, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(100, 200, 'a<root and b<root');
+		str(aposx,txa);
+		str(bposx,txb);
+		str(aposy,txay);
+		str(bposy,txby);
+		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
+		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
+	end
+	else
+	begin
+		axp:=a/cx;
+		agx := cx * axp;
+		aposx := ox + trunc(axp);  
+		agy := fun(agx);
+		ayp := agy / cy;
+		aposy := trunc(-ayp) + oy;
+		
+		bxp:=b/cx;
+		bgx := cx * bxp;
+		bposx := ox + trunc(bxp);  
+		bgy := fun(bgx);
+		byp := bgy / cy;
+		bposy := trunc(-byp) + oy;
+		flag:=false;
+		settextjustify(0, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(100, 200, 'inache');
+		str(aposx,txa);
+		str(bposx,txb);
+		str(aposy,txay);
+		str(bposy,txby);
+		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
+		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);
+	end;
+	
+	if ((bposx-aposx)>=4)and((oy-2-aposy)>=4) then
+	begin
+		if (a <= hsx*xamo) then
 			line(aposx,oy,aposx,aposy);
-		end;
 		
 		if (b<=hsx*xamo)and(b>=root)then
 		begin
