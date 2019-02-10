@@ -9,7 +9,7 @@ const
   backcol = 7;
   root = 4.62919;
   xarr = 30;
-  yarr = 60;
+  yarr = 150;
   cham = 3;
   npx = 2;
   npy = 36;
@@ -256,17 +256,18 @@ procedure hatching(hsx, hsy: longint);
   
 	var
 		xp, yp, gx, gy, cx, cy: real;
-		igra, ii, posx, posy, runxm, runxp: integer;
+		igra, ii, posx, posy, runxm, runxp: longint;
 
 begin
 	cx := hsx / 40;//шаг 40 пикселей в одном делении
   cy := hsy / 40;//шаг
 	setlinestyle(0,0,1);
-	setcolor(5);
+	setcolor(2);
+	
 	xp:=a/cx;
 	gx := cx * xp;
   posx := ox + trunc(xp);  
-  gy := 4 * gx * gx * gx - 25 * gx * gx + 491 * gx - 2134;
+  gy := fun(gx);
   yp := gy / cy;
   posy := trunc(-yp) + oy;
 	
@@ -274,6 +275,21 @@ begin
 	begin
 		line(posx,oy,posx,posy);
 	end;
+	
+	//floodfill(posx+1,posy+1,2);
+	
+	xp:=b/cx;
+	gx := cx * xp;
+  posx := ox + trunc(xp);  
+  gy := fun(gx);
+  yp := gy / cy;
+  posy := trunc(-yp) + oy;
+	
+	if (b<=hsx*xamo)and(b>=root)then
+	begin
+		line(posx,oy,posx,posy);
+	end;
+	
 end;
 
 
@@ -281,7 +297,7 @@ procedure gra(scx: integer; scy: longint);
 
 var
   xp, yp, gx, gy, cx, cy: real;
-  igra, ii, posx, posy, runxm, runxp: integer;
+  igra, ii, posx, posy, runxm, runxp: longint;
 	hx,hy:longint;
 begin
   cx := scx / 40;//шаг 40 пикселей в одном делении
@@ -295,7 +311,7 @@ begin
   while posy <= getmaxy do
   begin
     gx := cx * xp;
-    gy := 4 * gx * gx * gx - 25 * gx * gx + 491 * gx - 2134;
+    gy := fun(gx);
     yp := gy / cy;
     posy := trunc(-yp) + oy;
     posx := ox + trunc(xp);
@@ -310,7 +326,7 @@ begin
   while posy >= 0 do
   begin
     gx := cx * xp;
-    gy := 4 * gx * gx * gx - 25 * gx * gx + 491 * gx - 2134;
+    gy := fun(gx);
     yp := gy / cy;
     posy := trunc(-yp) + oy;
     runxp := trunc(xp);
@@ -328,7 +344,7 @@ begin
     gx := cx * xp;
     posx := ox + trunc(xp);
     
-    gy := 4 * gx * gx * gx - 25 * gx * gx + 491 * gx - 2134;
+    gy := fun(gx);
     yp := gy / cy;
     posy := trunc(-yp) + oy;
     
