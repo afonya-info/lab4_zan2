@@ -5,27 +5,33 @@ uses crt,graph,wincrt;
 const
 	xarr = 30;
 	yarr = 60;
+	cham = 3;
 
 type
 	masx = array[0..xarr] of integer;
 	masy = array[0..yarr] of longint;
 	check = record
-		x:array [1..2000] of real;
-		y:array [1..2000] of real;
+		x:array [1..cham] of real;
+		y:array [1..cham] of real;
+		xn:array [1..cham] of string;
+		yn:array [1..cham] of string;
 	end;
 
-	
+	  
 
 var
 	mx:masx;// вспомогательный массив для масшатбов
 	my:masy;
-	ch:check;
+	ch:array [-1000..1000] of check;
 	gd,gm:integer;
   ox,oy,col,i,a,b,x,y,y2,a1,a2,d,kol,ix,iy,im,xamo:integer;
 	m,j,stex,stey: real;
 	c: char;
 	fkos,vylrx,vylox,vyly,vylyz,nnew:boolean;
   maxm:string;
+	tx1,tx2,tx3,tx4,tx5,tx6:string[9];
+	zag:string;
+	f1:text;
 	
 procedure osi(omx:integer;omy:longint);// послыать занчение масштаба
 	var
@@ -142,6 +148,23 @@ begin
 	
 	moveto(posx,posy);
 	
+	ii:=1;
+	ch[ii].xn[1]:= 'xp';
+	ch[ii].xn[2]:= 'gx';
+	ch[ii].xn[3]:= 'posx';
+	
+	ch[ii].yn[1]:= 'yp';
+	ch[ii].yn[2]:= 'gy';
+	ch[ii].yn[3]:= 'posy';
+	
+	ch[ii].x[1]:= xp;
+	ch[ii].x[2]:= gx;
+	ch[ii].x[3]:= posx;
+
+	ch[ii].y[1]:= yp;
+	ch[ii].y[2]:= gy;
+	ch[ii].y[3]:= posy;
+	
 	
 	for igra:= trunc(-(getmaxx/2)) to trunc(getmaxx/2) do 
 	begin
@@ -154,6 +177,22 @@ begin
 		posy:= trunc(-yp) + oy;
 		
 		lineto(posx,posy);
+		
+		ch[igra].xn[1]:= 'xp';
+		ch[igra].xn[2]:= 'gx';
+		ch[igra].xn[3]:= 'posx';
+		
+		ch[igra].yn[1]:= 'yp';
+		ch[igra].yn[2]:= 'gy';
+		ch[igra].yn[3]:= 'posy';
+		
+		ch[igra].x[1]:= xp;
+		ch[igra].x[2]:= gx;
+		ch[igra].x[3]:= posx;
+
+		ch[igra].y[1]:= yp;
+		ch[igra].y[2]:= gy;
+		ch[igra].y[3]:= posy;
 	end;
 	
 end;
@@ -253,7 +292,23 @@ begin
 			end;
 	until c=#27;
 	
-	wincrt.readkey;
-	
   closegraph;
+	
+	assign(f1,'C:\FPC\2.6.0\bin\i386-win32\lab4_zan2\bugreport.txt');
+	rewrite(f1);
+	zag:= '|   xp   |   gx   |  posx  |   yp   |   gy   |  posy  |';
+	writeln(f1,zag);
+	for i:= -1000 to 1000 do 
+	begin
+		str(ch[i].x[1]:8:1,tx1);
+		str(ch[i].x[2]:8:1,tx2);
+		str(ch[i].x[3]:8:1,tx3);
+		str(ch[i].y[1]:8:1,tx4);
+		str(ch[i].y[2]:8:1,tx5);
+		str(ch[i].y[3]:8:1,tx6);
+		write(f1,tx1+tx2+tx3+tx4+tx5+tx6);
+		writeln;
+	end;
+	close(f1);
+	
 end.
