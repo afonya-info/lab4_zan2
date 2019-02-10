@@ -138,7 +138,7 @@ begin
 	setlinestyle(0,0,3);
 	setcolor(2);
 	
-	{xp:=-1;
+	xp:=-1;
 	posy:=oy;
 	while posy<=getmaxy do
 	begin
@@ -146,9 +146,12 @@ begin
 		gy:= 4*gx*gx*gx-25*gx*gx+491*gx-2134;
 		yp:=gy/cy;
 		posy:= trunc(-yp) + oy;
-		runxm:=trunc(xp)+ox;
+		posx:=ox+trunc(xp);
+		runxm:=trunc(xp);
 		xp:=xp-1;
 	end;
+	
+	moveto(posx,posy-1);
 	
 	xp:=1;
 	posy:=oy;
@@ -158,45 +161,16 @@ begin
 		gy:= 4*gx*gx*gx-25*gx*gx+491*gx-2134;
 		yp:=gy/cy;
 		posy:= trunc(-yp) + oy;
-		runxp:=trunc(xp)+ox;
+		runxp:=trunc(xp);
 		xp:=xp+1;
-	end;}
-	{if runxm<0 then
+	end;
+	if runxm<trunc(-getmaxx/2) then
 		runxm:=trunc(-(getmaxx/2));
 	if runxp>trunc(getmaxx/2) then
-		runxp:=trunc((getmaxx/2));}
+		runxp:=trunc((getmaxx/2));
 	
 	
-	
-	gx:= - scx*xamo ;//крайнее левое положение
-	xp:=gx/cx;
-	posx:=ox+trunc(xp);
-	
-	gy:= 4*gx*gx*gx-25*gx*gx+491*gx-2134;
-	yp:=gy/cy;
-	posy:= trunc(-yp) + oy;
-	
-	moveto(posx,posy);
-	
-	ii:=1;
-	ch[ii].xn[1]:= 'xp';
-	ch[ii].xn[2]:= 'gx';
-	ch[ii].xn[3]:= 'posx';
-	
-	ch[ii].yn[1]:= 'yp';
-	ch[ii].yn[2]:= 'gy';
-	ch[ii].yn[3]:= 'posy';
-	
-	ch[ii].x[1]:= xp;
-	ch[ii].x[2]:= gx;
-	ch[ii].x[3]:= posx;
-
-	ch[ii].y[1]:= yp;
-	ch[ii].y[2]:= gy;
-	ch[ii].y[3]:= posy;
-	
-	
-	for igra:= trunc(-(getmaxx/2)) to trunc(getmaxx/2) do 
+	for igra:= runxm to runxp do 
 	begin
 		xp:=igra;
 		gx:=cx*xp;
@@ -207,22 +181,7 @@ begin
 		posy:= trunc(-yp) + oy;
 		
 		lineto(posx,posy);
-		
-		ch[igra].xn[1]:= 'xp';
-		ch[igra].xn[2]:= 'gx';
-		ch[igra].xn[3]:= 'posx';
-		
-		ch[igra].yn[1]:= 'yp';
-		ch[igra].yn[2]:= 'gy';
-		ch[igra].yn[3]:= 'posy';
-		
-		ch[igra].x[1]:= xp;
-		ch[igra].x[2]:= gx;
-		ch[igra].x[3]:= posx;
-
-		ch[igra].y[1]:= yp;
-		ch[igra].y[2]:= gy;
-		ch[igra].y[3]:= posy;
+	
 	end;
 	
 end;
@@ -323,22 +282,6 @@ begin
 	until c=#27;
 	
   closegraph;
-	
-	assign(f1,'C:\FPC\2.6.0\bin\i386-win32\lab4_zan2\bugreport.txt');
-	rewrite(f1);
-	zag:= '|   xp   |   gx   |  posx  |   yp   |   gy   |  posy  |';
-	writeln(f1,zag);
-	for i:= -1000 to 1000 do 
-	begin
-		str(ch[i].x[1]:8:1,tx1);
-		str(ch[i].x[2]:8:1,tx2);
-		str(ch[i].x[3]:8:1,tx3);
-		str(ch[i].y[1]:8:1,tx4);
-		str(ch[i].y[2]:8:1,tx5);
-		str(ch[i].y[3]:8:1,tx6);
-		write(f1,tx1+tx2+tx3+tx4+tx5+tx6);
-		writeln;
-	end;
-	close(f1);
+
 	
 end.
