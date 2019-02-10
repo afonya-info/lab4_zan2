@@ -123,23 +123,19 @@ end;
 	
 procedure gra(scx:integer;scy:longint);
 	
-	const
-		cx=scx/40;//шаг 40 пикселей в одном делении
-		cy=scy/40;//шаг
-	
 	var
-		xp,yp,gx,gy: real;
+		xp,yp,gx,gy,cx,cy: real;
 		igra,ii,posx,posy:integer;
 begin	
-	//cx:=scx/40;//шаг 40 пикселей в одном делении
-	//cy:=scy/40;//шаг
+	cx:=scx/40;//шаг 40 пикселей в одном делении
+	cy:=scy/40;//шаг
 	
 	setlinestyle(0,0,3);
 	setcolor(2);
 	
 	gx:=6;
 	xp:=gx/cx;
-	posx:=ox+xp;
+	posx:=ox+trunc(xp);
 	moveto(posx,1);
 	for igra:= 2 to getmaxy do 
 	begin
@@ -157,7 +153,7 @@ begin
   ox:=trunc(getmaxx/2);
   oy:=trunc(getmaxy/2);
 	
-	ix:=1;
+	{ix:=1;
 	for i:= -767 to 767 do begin
 		xpix[i]:=ix;
 		inc(ix);
@@ -167,7 +163,7 @@ begin
 	for i:= 400 downto -400 do begin
 		ypix[i]:=ix;
 		inc(ix);
-	end;
+	end;}
 	
 	mx[0]:=1;
 	my[0]:=100;
