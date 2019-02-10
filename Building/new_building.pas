@@ -35,7 +35,7 @@ var
 begin
 	repeat 
   clrscr;
-  writeln('Please, enter boarders of integration(conditions: 1)-40<=border<=40; 2)low<>high; 3) high-low>=3 ):');
+  writeln('Please, enter boarders of integration(condition low<>high:');
   write('low boarder = ');
   readln(a);
   write('high boarder = ');
