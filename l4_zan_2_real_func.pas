@@ -6,6 +6,8 @@ const
 	xarr = 30;
 	yarr = 60;
 	cham = 3;
+	npx=2;
+	npy=36;
 
 type
 	masx = array[0..xarr] of integer;
@@ -207,8 +209,8 @@ begin
 		iy:=iy+200;
 	end;
 
-	ix:=0;
-	iy:=6;
+	ix:=npx;
+	iy:=npy;
 	osi(mx[ix],my[iy]);
 	gra(mx[ix],my[iy]);
 	
@@ -249,8 +251,8 @@ begin
 								
 								end;
 					#83:	begin// del нормальный масштаб
-									ix:=0;
-									iy:=6;
+									ix:=npx;
+									iy:=npy;
 									
 									osi(mx[ix],my[iy]);
 									gra(mx[ix],my[iy]);
