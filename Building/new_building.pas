@@ -167,7 +167,7 @@ begin
 	settextstyle(1, 0, 2);
 	setcolor(2);
 	setlinestyle(0,0,3);
-	rectangle(5,70,560,230);
+	rectangle(5,70,560,250);
 	setcolor(15);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
@@ -176,7 +176,8 @@ begin
 	outtextxy(10, 140, '+/- - change scale');
 	outtextxy(10, 160, #24+'/'+#25+' - independent Y axis` scaling');
 	outtextxy(10, 180, #26+'/'+#27+' - independent X axis` scaling');
-	outtextxy(10, 200, 'Esc - close graph mode');
+	outtextxy(10, 200, 'Del - reset to start position');
+	outtextxy(10, 220, 'Esc - close graph mode');
 end;
 
 procedure osi(omx, omy: longint);// послыать занчение масштаба
@@ -404,11 +405,11 @@ begin
 	begin
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
-		outtextxy(150, 240, 'hatch is not available');
-		outtextxy(150, 260, ' at the current scale');
-		outtextxy(150, 280, 'or borders are too close');
-		outtextxy(150, 300, ' to each other');
-		outtextxy(150, 320, 'or the square is absent');
+		outtextxy(150, 260, 'hatch is not available');
+		outtextxy(150, 280, ' at the current scale');
+		outtextxy(150, 300, 'or borders are too close');
+		outtextxy(150, 320, ' to each other');
+		outtextxy(150, 340, 'or the square is absent');
 		
 		{str(flag,txby);
 		outtextxy(100, 200, txby);}
