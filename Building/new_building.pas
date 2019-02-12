@@ -13,6 +13,7 @@ const
   cham = 3;
   npx = 2;
   npy = 36;
+	mashpix = 45;
 
 type
   armen = array[1..c] of string[90];
@@ -26,7 +27,7 @@ var
   sym: char;
   poz, x, y, ox, oy, i, ix, iy, xamo: longint;
 	gd,gm:integer;
-  a, b, step, n, w, f, l, r, t, s, snl, d, absd, plos, zn: real;
+  a, b, step, n, w, t, s, snl, d, absd, plos, zn: real;
   cg: char;
 
 function fun(funx: real): real;
@@ -130,8 +131,6 @@ begin
 end;
 
 procedure calsquare;
-var
-  dd, absdd: real;
 begin
   if (poz = 2) then
     clrscr;
@@ -159,6 +158,27 @@ begin
   if poz = 2 then outsquare;
 end;
 
+procedure infa;
+begin
+	settextjustify(0, 2);
+	settextstyle(1, 0, 2);
+	setcolor(5);
+	outtextxy(100, 20, 'Y:= 4*x^3-25*x^2+491*x-2134');
+	settextstyle(1, 0, 2);
+	setcolor(2);
+	setlinestyle(0,0,3);
+	rectangle(5,70,560,230);
+	setcolor(15);
+	settextjustify(1, 2);
+	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
+	settextjustify(0, 2);
+	outtextxy(10, 120, 'H or h - hatching');
+	outtextxy(10, 140, '+/- - change scale');
+	outtextxy(10, 160, #24+'/'+#25+' - independent Y axis` scaling');
+	outtextxy(10, 180, #26+'/'+#27+' - independent X axis` scaling');
+	outtextxy(10, 200, 'Esc - close graph mode');
+end;
+
 procedure osi(omx, omy: longint);// послыать занчение масштаба
 var
   ios, xr, xoi: longint;
@@ -166,7 +186,7 @@ var
 
 begin
   cleardevice;
-  
+  infa;
   setlinestyle(0, 0, 3);
   setcolor(15);
   line(0, oy, getmaxx, oy);
@@ -192,19 +212,19 @@ begin
   str(getmaxx, tx);
   settextjustify(0, 2);
   settextstyle(1, 0, 2);
-  outtextxy(10, 10, tx);
+  //outtextxy(10, 10, tx);
   
   str(getmaxy, tx);
   settextjustify(0, 2);
   settextstyle(1, 0, 2);
-  outtextxy(10, 50, tx);
+  //outtextxy(10, 50, tx);
   
   xr := 0;
   xoi := omx;
   xamo := 1;
   for ios := ox to getmaxx do 
   begin
-    if ((xr mod 40) = 0) and (xr <> 0) then begin
+    if ((xr mod mashpix) = 0) and (xr <> 0) then begin
       line(ox + xr, oy + 7, ox + xr, oy);
       
       str(xoi, tx);
@@ -230,7 +250,7 @@ begin
   xoi := omy;
   for ios := oy downto 0 do 
   begin
-    if ((xr mod 40) = 0) and (xr <> 0) then begin
+    if ((xr mod mashpix) = 0) and (xr <> 0) then begin
       line(ox - 7, oy - xr, ox, oy - xr);
       
       str(xoi, tx);
@@ -256,13 +276,13 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, agx, agy, bxp, byp, bgx, rxp,rgx,bgy, cx, cy: real;
-		igra, ii, aposx, aposy, runxm, runxp,bposx,bposy,rposx,mbposy: longint;
+		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy: real;
+		aposx, aposy, bposx,bposy,rposx,mbposy: longint;
 		flag,flagar,flagrb:boolean;
-		txa,txb,txay,txby:string;
+		txby:string;
 begin
-	cx := hsx / 40;//шаг 40 пикселей в одном делении
-  cy := hsy / 40;//шаг
+	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
+  cy := hsy / mashpix;//шаг
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
@@ -272,7 +292,6 @@ begin
 	flagrb:=false;
 	
 	rxp:=root/cx;
-	rgx := cx * rxp;
 	rposx := ox + trunc(rxp); 
 	
 	agx := cx * trunc(getmaxx/2);
@@ -324,7 +343,7 @@ begin
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
 		str(flag,txby);
-		outtextxy(100, 200, txby);
+		//outtextxy(100, 200, txby);
 		if (a <= hsx*xamo) then
 			if not flagar then
 				line(aposx,oy,aposx,aposy);
@@ -334,7 +353,7 @@ begin
 		else if b>root then 
 		begin
 			line(getmaxx,oy,getmaxx,mbposy);
-				outtextxy(100, 220, 'b>getmaxx');
+				//outtextxy(100, 220, 'b>getmaxx');
 		end;
 		
 		begin
@@ -385,11 +404,11 @@ begin
 	begin
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
-		outtextxy(100, 100, 'hatch is not available');
-		outtextxy(100, 120, ' at the current scale');
-		outtextxy(100, 140, 'or borders are too close');
-		outtextxy(100, 160, ' to each other');
-		outtextxy(100, 180, 'or the square is absent');
+		outtextxy(150, 240, 'hatch is not available');
+		outtextxy(150, 260, ' at the current scale');
+		outtextxy(150, 280, 'or borders are too close');
+		outtextxy(150, 300, ' to each other');
+		outtextxy(150, 320, 'or the square is absent');
 		
 		{str(flag,txby);
 		outtextxy(100, 200, txby);}
@@ -402,11 +421,10 @@ procedure gra(scx, scy: longint);
 
 var
   xp, yp, gx, gy, cx, cy: real;
-  igra, ii, posx, posy, runxm, runxp: longint;
-	hx,hy:longint;
+  igra, posx, posy, runxm, runxp: longint;
 begin
-  cx := scx / 40;//шаг 40 пикселей в одном делении
-  cy := scy / 40;//шаг
+  cx := scx / mashpix;//шаг mashpix пикселей в одном делении
+  cy := scy / mashpix;//шаг
   
   setlinestyle(0, 0, 3);
   setcolor(2);
@@ -519,7 +537,7 @@ begin
             if (iy - 1) >= 0 then begin
               dec(iy);
               osi(mx[ix], my[iy]);
-              gra(mx[ix], my[iy]);									
+              gra(mx[ix], my[iy]);
             end;
             
           end;
@@ -528,7 +546,7 @@ begin
             if (iy + 1) <= yarr then begin
               inc(iy);
               osi(mx[ix], my[iy]);
-              gra(mx[ix], my[iy]);	
+              gra(mx[ix], my[iy]);						
             end;
             
           end;
@@ -539,7 +557,6 @@ begin
             
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
-            
           end;
       end;
     end
@@ -561,13 +578,13 @@ begin
               inc(ix);
               inc(iy);
               osi(mx[ix], my[iy]);
-              gra(mx[ix], my[iy]);									
+              gra(mx[ix], my[iy]);							
             end;
           end;
-				'h':
-					begin
-						hatching(mx[ix], my[iy]);
-					end;
+				'h': hatching(mx[ix], my[iy]);
+				'H': hatching(mx[ix], my[iy]);
+				//'Р': hatching(mx[ix], my[iy]);
+				//'р': hatching(mx[ix], my[iy]);
       end;
     end;
   until cg = #27;
