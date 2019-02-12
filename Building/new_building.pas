@@ -24,7 +24,8 @@ var
   my: masy;
   menu: armen;
   sym: char;
-  poz, x, y, gd, gm, ox, oy, i, ix, iy, xamo: integer;
+  poz, x, y, ox, oy, i, ix, iy, xamo: longint;
+	gd,gm:integer;
   a, b, step, n, w, f, l, r, t, s, snl, d, absd, plos, zn: real;
   cg: char;
 
@@ -106,7 +107,7 @@ end;
 
 procedure outmenu;
 var
-  i: integer;
+  i: longint;
 begin
   clrscr;
   for i := 1 to c do
@@ -158,7 +159,7 @@ begin
   if poz = 2 then outsquare;
 end;
 
-procedure osi(omx: integer; omy: longint);// послыать занчение масштаба
+procedure osi(omx, omy: longint);// послыать занчение масштаба
 var
   ios, xr, xoi: longint;
   tx: string;
@@ -317,7 +318,7 @@ begin
 		flagrb:=true;
 	
 		
-	setfillstyle(7,3);
+	setfillstyle(11,9);
 	if ((bposx-aposx)>=2)and(((oy-2-bposy)>=10)or flagrb)and flag then
 	begin
 		settextjustify(0, 2);
@@ -356,7 +357,7 @@ begin
 					if (oy-2-aposy)<10 then
 					begin
 						line(rposx,oy-2,getmaxx,oy-2);
-						setfillstyle(3,5);
+						//setfillstyle(3,5);
 						floodfill(getmaxx-1,oy-3,2)
 					end
 					else
@@ -397,7 +398,7 @@ begin
 end;
 
 
-procedure gra(scx: integer; scy: longint);
+procedure gra(scx, scy: longint);
 
 var
   xp, yp, gx, gy, cx, cy: real;
