@@ -317,7 +317,7 @@ begin
 		flagrb:=true;
 	
 		
-	
+	setfillstyle(7,3);
 	if ((bposx-aposx)>=2)and(((oy-2-bposy)>=10)or flagrb)and flag then
 	begin
 		settextjustify(0, 2);
@@ -328,11 +328,12 @@ begin
 			if not flagar then
 				line(aposx,oy,aposx,aposy);
 		
-		if (b<=hsx*xamo)and(b>=root)then
+		if (bposx<=getmaxx)and(b>=root)then
 			line(bposx,oy,bposx,bposy)
 		else if b>root then 
 		begin
 			line(getmaxx,oy,getmaxx,mbposy);
+				outtextxy(100, 220, 'b>getmaxx');
 		end;
 		
 		begin
@@ -342,13 +343,11 @@ begin
 					if (oy-2-aposy)<10 then
 					begin
 						line(rposx,oy-2,bposx,oy-2);
-						setfillstyle(3,5);
 						floodfill(bposx-1,oy-3,2);
 					end
 					else
 					begin
 						line(aposx,oy-2,bposx,oy-2);
-						setfillstyle(3,5);
 						floodfill(bposx-1,oy-3,2);
 					end;
 				end
@@ -363,7 +362,6 @@ begin
 					else
 					begin
 						line(aposx,oy-2,getmaxx,oy-2);
-						setfillstyle(3,5);
 						floodfill(getmaxx-1,oy-3,2);
 					end;
 				end
@@ -372,13 +370,11 @@ begin
 				if bposx<getmaxx then
 				begin
 					line(rposx,oy-2,bposx,oy-2);
-					setfillstyle(3,5);
 					floodfill(bposx-1,oy-3,2);
 				end
 				else
 				begin
 					line(rposx,oy-2,getmaxx,oy-2);
-					setfillstyle(3,5);
 					floodfill(getmaxx-1,oy-3,2);
 				end
 			end;
