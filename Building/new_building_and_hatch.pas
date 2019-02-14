@@ -27,7 +27,7 @@ var
   sym: char;
   poz, x, y, ox, oy, i, ix, iy, xamo: longint;
 	gd,gm:integer;
-  a, b, step, n, w, t, s, snl, d, absd, plos, zn: real;
+  a, b,  step,n, w, t, s, snl, d, absd, plos, zn: real;
   cg: char;
 
 function fun(funx: real): real;
@@ -53,16 +53,17 @@ begin
 		bnf:=true;
 		bpf:=true;
 		//writeln(low(longint),'..',high(longint));
-    writeln('Please, enter boarders of integration(condition low<>high:');
+    writeln('Please, enter boarders of integration(conditions: 1) low<>high ');
+		writeln('2) numbers must satisfy the segment[-2147483648..2147483647]');
     write('low boarder = ');
     readln(a);
     write('high boarder = ');
     readln(b);
     write('amount of splits = ');
     readln(step);
-    while step < 1 do
+    while (step <1) or (step>high(longint)) do
     begin
-      writeln('amount of splits must be natural number, try again');
+      writeln('amount of splits must be more than 1 and less than 2147483647');
       write('amount of splits = ');
       readln(step);
     end;
