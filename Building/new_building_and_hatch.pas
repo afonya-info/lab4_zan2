@@ -291,13 +291,13 @@ begin
 	setlinestyle(0,0,1);
 	setcolor(2);
 	setfillstyle(11,9);
+	pgmx:=getmaxx-ox;
+	xgmx:=cx*pgmx;
 	if a <=root then
 		if b<=root then
 			fah:=true// привыводе текста проврека на флаг
 		else begin
 			fah:=false;
-			pgmx:=getmaxx-ox;
-			xgmx:=cx*pgmx;
 			if b<=xgmx then begin
 				hxp:=b/cx; //<----  +
 				bposx:=ox + trunc(hxp);//<---- +
@@ -329,7 +329,36 @@ begin
 				end
 				else
 					fah:=true;
-		end;
+		end
+	else begin
+		
+		apx:=a/cx;
+		aposx:= ox + trunc(apx);
+		ay:=fun(a);
+		ayp:=ay/cy;
+		aposy:=trunc(-ayp) + oy;
+		
+		bpx:=b/cx;
+		bposx:=ox + trunc(bpx);
+		by:=fun(b);
+		byp:=by/cy;
+		bposy:=trunc(-byp) + oy;
+		
+		if abs(aposx-bposx)>10 then begin
+			if aposx<getmaxx then begin
+				fah:=false;
+				if bposx<=getmaxx then begin
+				end
+				else begin
+					
+				end;
+			end
+			else
+				fah:=true;
+		end
+		else
+			fah:=true;
+	end;
 	if fah then begin
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
