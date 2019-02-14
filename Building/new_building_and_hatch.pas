@@ -316,7 +316,7 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if hposy>corypos then begin //штриховать
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2) then begin //штриховать
 					line(bposx,oy-2,bposx,bposy);
 					line(rposx,oy-2,bposx,oy-2);
 					floodfill(hposx,hposy,2);
@@ -326,6 +326,26 @@ begin
 				
 			end
 			else begin
+				bposx:=getmaxx;
+				hy:=fun(xgmx);
+				hyp:=hy/cy;
+				bposy:=trunc(-hyp) + oy;
+				if bposy<0 then
+					bposy:=0;
+				hposx:=bposx-10;
+				hposy:=oy-12;
+				corhxp:=pgmx-10;// сколько в пикселях от ox  до края минус 10
+				corx:=cx*corhxp;// пошлю в функцию
+				cory:=fun(corx);
+				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
+				corypos:=oy + trunc(-coryp);
+				if (hposy>corypos )and(getpixel(hposx,hposy)<>2)then begin //штриховать
+					line(bposx,oy-2,bposx,bposy);
+					line(rposx,oy-2,bposx,oy-2);
+					floodfill(hposx,hposy,2);
+				end
+				else
+					fah:=true;
 			end;
 		end;
 	if fah then begin
