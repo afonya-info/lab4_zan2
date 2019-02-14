@@ -308,9 +308,9 @@ begin
 				if bposy<0 then
 					bposy:=0;
 				
-				hposx:=bposx-3;
-				hposy:=oy-5;
-				corhxp:=hxp-3;// дляпроверки штриховки
+				hposx:=bposx-10;
+				hposy:=oy-12;
+				corhxp:=hxp-10;// дляпроверки штриховки
 				corx:=cx*corhxp;// пошлю в функцию
 				cory:=fun(corx);
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
@@ -509,6 +509,12 @@ begin
           end;
 				'h': hatching(mx[ix], my[iy]);
 				'H': hatching(mx[ix], my[iy]);
+				#48:begin// сброс на минимум
+						ix := 0;
+            iy := 0;
+            osi(mx[ix], my[iy]);
+            gra(mx[ix], my[iy]);
+						end;
 				//'Р': hatching(mx[ix], my[iy]);
 				//'р': hatching(mx[ix], my[iy]);
       end;
