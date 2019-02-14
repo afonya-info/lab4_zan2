@@ -277,7 +277,7 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
+		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
 		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
 		fah:boolean;
 		txby:string;
@@ -290,6 +290,8 @@ begin
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
+	settextjustify(2, 2);
+	settextstyle(1, 0, 2);
 	setfillstyle(11,9);
 	pgmx:=getmaxx-ox;
 	xgmx:=cx*pgmx;
@@ -347,17 +349,62 @@ begin
 		if abs(aposx-bposx)>10 then begin
 			if aposx<getmaxx then begin
 				fah:=false;
+				//// -----для б----- 
+				outtextxy(ox-100, oy+100,'a<getmaxx');
 				if bposx<=getmaxx then begin
+					outtextxy(ox-100, oy+120,'bposx<getmaxx');
+					bpx:=b/cx; //<----  +
+					bposx:=ox + trunc(bpx);//<---- +
+					by:=fun(b);//<---- +
 				end
 				else begin
-					
+					outtextxy(ox-100, oy+120,'bposx>getmaxx');
+					bpx:=pgmx;
+					bposx:=getmaxx;
+					by:=fun(xgmx);
+				end;
+				byp:=by/cy;
+				bposy:=trunc(-byp)+oy;
+				
+				if bposy<0 then begin
+				outtextxy(ox-100, oy+140,'bposy<0');
+					bposy:=0;
+				end;
+				hposx:=bposx-10;
+				hposy:=oy-12;
+				corhxp:=bpx-10;
+				corx:=cx*corhxp;
+				cory:=fun(corx);
+				coryp:=cory/cy;
+				corypos:=oy + trunc(-coryp);
+				
+				// -------для а--------
+				
+				
+				
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and((oy-2)>aposy) then begin
+					line(bposx,oy-2,bposx,bposy);
+					line(aposx,oy-2,aposx,aposy);
+					line(aposx,oy-2,bposx,oy-2);
+					floodfill(hposx,hposy,2);
+				end
+				else begin
+					setcolor(4);
+					outtextxy(ox-100, oy+160,'3 conditions');
+					fah:=true;
 				end;
 			end
-			else
+			else begin
 				fah:=true;
+				setcolor(4);
+				outtextxy(ox-100, oy+160,'aposx>=getmaxx');
+			end;
 		end
-		else
+		else begin
 			fah:=true;
+			setcolor(4);
+			outtextxy(ox-100, oy+160,'abs(aposx-bposx)<=10');
+		end;
 	end;
 	if fah then begin
 		settextjustify(0, 2);
@@ -540,9 +587,15 @@ begin
           end;
 				'h': hatching(mx[ix], my[iy]);
 				'H': hatching(mx[ix], my[iy]);
-				#48:begin// сброс на минимум
+				'0':begin// сброс на минимум
 						ix := 0;
             iy := 0;
+            osi(mx[ix], my[iy]);
+            gra(mx[ix], my[iy]);
+						end;
+				'9':begin// сброс на минимум
+						ix := xarr;
+            iy := yarr;
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
 						end;
