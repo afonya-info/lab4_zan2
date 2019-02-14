@@ -277,132 +277,56 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy: real;
-		aposx, aposy, bposx,bposy,rposx,mbposy: longint;
-		flag,flagar,flagrb:boolean;
+		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy,xgmx,hxp: real;
+		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx: longint;
+		fah:boolean;
 		txby:string;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
 	
+	rxp:=root/cx;
+	rposx:=ox+trunc(rxp);
+	
 	setlinestyle(0,0,1);
 	setcolor(2);
-	
-	flag:=true;
-	flagar:=false;
-	flagrb:=false;
-	
-	rxp:=root/cx;
-	rposx := ox + trunc(rxp); 
-	
-	agx := cx * trunc(getmaxx/2);
-	aposx := trunc(getmaxx/2);  
-	agy := fun(agx);
-	ayp := agy / cy;
-	mbposy := trunc(-ayp) + oy;
-	
-		{settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		outtextxy(100, 200, 'a<root and b>root');
-		str(aposx,txa);
-		str(bposx,txb);
-		str(aposy,txay);
-		str(bposy,txby);
-		outtextxy(100, 220, ' aposx = '+txa+' bposx = '+txb);
-		outtextxy(100, 240, ' aposy = '+txay+' bposy = '+txby);}
-	
-
-		
-	axp:=a/cx;
-	agx := cx * axp;
-	aposx := ox + trunc(axp);  
-	agy := fun(agx);
-	ayp := agy / cy;
-	aposy := trunc(-ayp) + oy;
-	
-	bxp:=b/cx;
-	bgx := cx * bxp;
-	bposx := ox + trunc(bxp);  
-	bgy := fun(bgx);
-	byp := bgy / cy;
-	bposy := trunc(-byp) + oy;
-		
-	if (a<root)and(b<root)then
-		FLAG:=false;
-	if ((a<root) and (b>root)) then//or bposx>getmaxx
-		flagar:=true;
-	
-	if ((aposx>getmaxx) and (bposx>getmaxx)) or ((getmaxx-aposx)<2)then
-		flag:=false;
-	if bposx>getmaxx then
-		flagrb:=true;
-	
-		
 	setfillstyle(11,9);
-	if ((bposx-aposx)>=2)and(((oy-2-bposy)>=10)or flagrb)and flag then
-	begin
-		settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		str(flag,txby);
-		//outtextxy(100, 200, txby);
-		if (a <= hsx*xamo) then
-			if not flagar then
-				line(aposx,oy,aposx,aposy);
-		
-		if (bposx<=getmaxx)and(b>=root)then
-			line(bposx,oy,bposx,bposy)
-		else if b>root then 
-		begin
-			line(getmaxx,oy,getmaxx,mbposy);
-				//outtextxy(100, 220, 'b>getmaxx');
-		end;
-		
-		begin
-			if not flagar then 
-				if bposx<getmaxx then
-				begin
-					if (oy-2-aposy)<10 then
-					begin
-						line(rposx,oy-2,bposx,oy-2);
-						floodfill(bposx-1,oy-3,2);
-					end
-					else
-					begin
-						line(aposx,oy-2,bposx,oy-2);
-						floodfill(bposx-1,oy-3,2);
-					end;
-				end
+	if a <=root then
+		if b<=root then
+			fah:=true// привыводе текста проврека на флаг
+		else begin
+			fah:=false;
+			pgmx:=getmaxx-ox;
+			xgmx:=cx*pgmx;
+			if b<=xgmx then begin
+				hxp:=b/cx;
+				bposx:=ox + trunc(hxp);
+				hy:=fun(b);
+				hyp:=hy/cy;
+				bposy:=trunc(-hyp) + oy;
+				
+				corhxp:=hxp-3;// дляпроверки штриховки
+				corx:=cx*corhxp;// пошлю в функцию
+				cory:=fun(corx);
+				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
+				
+				if bposy>=0 then 
+					line(bposx,oy-2,bposx,bposy);
 				else
-				begin
-					if (oy-2-aposy)<10 then
-					begin
-						line(rposx,oy-2,getmaxx,oy-2);
-						//setfillstyle(3,5);
-						floodfill(getmaxx-1,oy-3,2)
-					end
-					else
-					begin
-						line(aposx,oy-2,getmaxx,oy-2);
-						floodfill(getmaxx-1,oy-3,2);
-					end;
-				end
-			else
-			begin
-				if bposx<getmaxx then
-				begin
-					line(rposx,oy-2,bposx,oy-2);
-					floodfill(bposx-1,oy-3,2);
-				end
+					line(bposx,oy-2,bposx,0);
+				
+				line(rposx,oy-2,bposx,oy-2);
+				if (oy-2-coryp)>3 then
+					floodfill(bposx-3,oy-5,2)
 				else
-				begin
-					line(rposx,oy-2,getmaxx,oy-2);
-					floodfill(getmaxx-1,oy-3,2);
-				end
+					fah:=true;
+					
+				
+			end
+			else begin
 			end;
-		end
-	end
-	else
-	begin
+		end;
+	if fah then begin
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
 		outtextxy(150, 260, 'hatch is not available');
@@ -410,10 +334,9 @@ begin
 		outtextxy(150, 300, 'or borders are too close');
 		outtextxy(150, 320, ' to each other');
 		outtextxy(150, 340, 'or the square is absent');
-		
-		{str(flag,txby);
-		outtextxy(100, 200, txby);}
 	end;
+		
+			
 	
 end;
 
