@@ -43,11 +43,16 @@ end;
 procedure enterborders;
 
 var
-  entflag: boolean;
+  entflag,res,anf,apf,bnf,bpf: boolean;
 
 begin
   repeat
     clrscr;
+		anf:=true;
+		apf:=true;
+		bnf:=true;
+		bpf:=true;
+		writeln(low(longint),'..',high(longint));
     writeln('Please, enter boarders of integration(condition low<>high:');
     write('low boarder = ');
     readln(a);
@@ -70,8 +75,22 @@ begin
       entflag := false
     else
       entflag := true;
+		if a<low(longint) then
+			anf:=false
+		else if a>high(longint) then
+			apf:=false;
+		
+		if b<low(longint) then
+			bnf:=false
+		else if b>high(longint) then
+			bpf:=false;
+
+		res:=anf and apf and bnf and bpf and entflag;
+		writeln(low(longint),'..',high(longint));
+		//writeln(low(real):1:1,high(real):1:1);
+		
     
-  until (entflag);
+  until res;
   writeln('press any key');
   readln;
 end;
@@ -183,7 +202,7 @@ end;
 procedure osi(omx, omy: longint);// послыать занчение масштаба
 var
   ios, xr, xoi: longint;
-  tx: string;
+  tx,txa,txb: string;
 
 begin
   cleardevice;
@@ -271,6 +290,13 @@ begin
     end;
     inc(xr);
   end;
+	settextjustify(0, 2);
+	setcolor(9);
+	settextstyle(1, 0, 2);
+	str(a:1:1,txa);
+	str(b:1:1,txb);
+	outtextxy(ox+100, oy+100, 'a = '+txa+', b = '+txb);
+
   
 end;
 
@@ -280,7 +306,7 @@ procedure hatching(hsx, hsy: longint);
 		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
 		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
 		fah:boolean;
-		txby:string;
+		txby,txa,txb:string;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
@@ -350,15 +376,15 @@ begin
 			if aposx<getmaxx then begin
 				fah:=false;
 				//// -----для б----- 
-				outtextxy(ox-100, oy+100,'a<getmaxx');
+				//outtextxy(ox-100, oy+100,'a<getmaxx');
 				if bposx<=getmaxx then begin
-					outtextxy(ox-100, oy+120,'bposx<getmaxx');
+					//outtextxy(ox-100, oy+120,'bposx<getmaxx');
 					bpx:=b/cx; //<----  +
 					bposx:=ox + trunc(bpx);//<---- +
 					by:=fun(b);//<---- +
 				end
 				else begin
-					outtextxy(ox-100, oy+120,'bposx>getmaxx');
+					//outtextxy(ox-100, oy+120,'bposx>getmaxx');
 					bpx:=pgmx;
 					bposx:=getmaxx;
 					by:=fun(xgmx);
@@ -367,7 +393,7 @@ begin
 				bposy:=trunc(-byp)+oy;
 				
 				if bposy<0 then begin
-				outtextxy(ox-100, oy+140,'bposy<0');
+				//outtextxy(ox-100, oy+140,'bposy<0');
 					bposy:=0;
 				end;
 				hposx:=bposx-10;
@@ -389,21 +415,21 @@ begin
 					floodfill(hposx,hposy,2);
 				end
 				else begin
-					setcolor(4);
-					outtextxy(ox-100, oy+160,'3 conditions');
+					//setcolor(4);
+					//outtextxy(ox-100, oy+160,'3 conditions');
 					fah:=true;
 				end;
 			end
 			else begin
 				fah:=true;
-				setcolor(4);
-				outtextxy(ox-100, oy+160,'aposx>=getmaxx');
+				//setcolor(4);
+				//outtextxy(ox-100, oy+160,'aposx>=getmaxx');
 			end;
 		end
 		else begin
 			fah:=true;
-			setcolor(4);
-			outtextxy(ox-100, oy+160,'abs(aposx-bposx)<=10');
+			//setcolor(4);
+			//outtextxy(ox-100, oy+160,'abs(aposx-bposx)<=10');
 		end;
 	end;
 	if fah then begin
@@ -415,8 +441,7 @@ begin
 		outtextxy(150, 320, ' to each other');
 		outtextxy(150, 340, 'or the square is absent');
 	end;
-		
-			
+				
 	
 end;
 
@@ -617,6 +642,8 @@ begin
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
   menu[5] := 'Exit';
+	a:=0;
+	b:=0;
   poz := 1;
   x := 3; y := 3;
   textattr := unpush;
