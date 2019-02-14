@@ -277,8 +277,8 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy,xgmx,hxp: real;
-		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx: longint;
+		axp, ayp, agx, agy, bxp, byp, bgx, rxp,bgy, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
+		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
 		fah:boolean;
 		txby:string;
 begin
@@ -305,13 +305,21 @@ begin
 				hyp:=hy/cy;
 				bposy:=trunc(-hyp) + oy;
 				
+				if bposy<0 then
+					bposy:=0;
+				
+				hposx:=bposx-3;
+				hposy:=oy-5;
 				corhxp:=hxp-3;// дляпроверки штриховки
 				corx:=cx*corhxp;// пошлю в функцию
 				cory:=fun(corx);
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
+				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
+				
+				if hposy>corypos then //штриховать
 				
 				if bposy>=0 then 
-					line(bposx,oy-2,bposx,bposy);
+					line(bposx,oy-2,bposx,bposy)
 				else
 					line(bposx,oy-2,bposx,0);
 				
