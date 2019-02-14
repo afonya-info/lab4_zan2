@@ -52,7 +52,7 @@ begin
 		apf:=true;
 		bnf:=true;
 		bpf:=true;
-		writeln(low(longint),'..',high(longint));
+		//writeln(low(longint),'..',high(longint));
     writeln('Please, enter boarders of integration(condition low<>high:');
     write('low boarder = ');
     readln(a);
@@ -86,8 +86,7 @@ begin
 			bpf:=false;
 
 		res:=anf and apf and bnf and bpf and entflag;
-		writeln(low(longint),'..',high(longint));
-		//writeln(low(real):1:1,high(real):1:1);
+		//writeln(low(longint),'..',high(longint));
 		
     
   until res;
@@ -452,7 +451,8 @@ begin
 	if ((aposy<0)or outs)and not fah then begin
 		settextjustify(1,2);
 		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
-		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of square');
+		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of');
+		outtextxy(trunc(ox/2)+ox, oy+140, 'calculating square');
 	end;
 end;
 
