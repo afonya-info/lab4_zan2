@@ -186,7 +186,7 @@ begin
 	settextstyle(1, 0, 2);
 	setcolor(2);
 	setlinestyle(0,0,3);
-	rectangle(5,70,560,250);
+	rectangle(5,70,560,300);
 	setcolor(15);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
@@ -196,7 +196,9 @@ begin
 	outtextxy(10, 160, #24+'/'+#25+' - independent Y axis` scaling');
 	outtextxy(10, 180, #26+'/'+#27+' - independent X axis` scaling');
 	outtextxy(10, 200, 'Del - reset to start position');
-	outtextxy(10, 220, 'Esc - close graph mode');
+	outtextxy(10, 220, '0 - minimal scale');
+	outtextxy(10, 240, '9 - maximum scale');
+	outtextxy(10, 260, 'Esc - close graph mode');
 end;
 
 procedure osi(omx, omy: longint);// послыать занчение масштаба
@@ -290,12 +292,12 @@ begin
     end;
     inc(xr);
   end;
-	settextjustify(0, 2);
+	settextjustify(1, 2);
 	setcolor(9);
 	settextstyle(1, 0, 2);
 	str(a:1:1,txa);
 	str(b:1:1,txb);
-	outtextxy(ox+100, oy+100, 'a = '+txa+', b = '+txb);
+	outtextxy(ox+trunc(ox/2), oy+40, 'a = '+txa+', b = '+txb);
 
   
 end;
@@ -305,7 +307,7 @@ procedure hatching(hsx, hsy: longint);
 	var
 		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
 		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
-		fah:boolean;
+		fah,outs:boolean;
 		txby,txa,txb:string;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
@@ -313,6 +315,7 @@ begin
 	
 	rxp:=root/cx;
 	rposx:=ox+trunc(rxp);
+	outs:=false;
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
@@ -335,12 +338,15 @@ begin
 				bposx:=getmaxx;//<----minus
 				hy:=fun(xgmx);//<---- minus
 				hxp:=pgmx;//<---- minus
+				outs:=true;
 			end;
 				hyp:=hy/cy;
 				bposy:=trunc(-hyp) + oy;
 				
-				if bposy<0 then
+				if bposy<0 then begin
 					bposy:=0;
+					outs:=true;
+				end;
 				
 				hposx:=bposx-10;
 				hposy:=oy-12;
@@ -388,12 +394,14 @@ begin
 					bpx:=pgmx;
 					bposx:=getmaxx;
 					by:=fun(xgmx);
+					outs:=true;
 				end;
 				byp:=by/cy;
 				bposy:=trunc(-byp)+oy;
 				
 				if bposy<0 then begin
 				//outtextxy(ox-100, oy+140,'bposy<0');
+					outs:=true;
 					bposy:=0;
 				end;
 				hposx:=bposx-10;
@@ -433,16 +441,19 @@ begin
 		end;
 	end;
 	if fah then begin
-		settextjustify(0, 2);
+		settextjustify(1, 2);
 		settextstyle(1, 0, 2);
-		outtextxy(150, 260, 'hatch is not available');
-		outtextxy(150, 280, ' at the current scale');
-		outtextxy(150, 300, 'or borders are too close');
-		outtextxy(150, 320, ' to each other');
-		outtextxy(150, 340, 'or the square is absent');
+		outtextxy(ox+trunc(ox/2) ,oy +100, 'hatch is not available');
+		outtextxy(ox+trunc(ox/2),oy +120, ' at the current scale');
+		outtextxy(ox+trunc(ox/2),oy +140, 'or borders are too close');
+		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
+		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
 	end;
-				
-	
+	if ((aposy<0)or outs)and not fah then begin
+		settextjustify(1,2);
+		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
+		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of square');
+	end;
 end;
 
 
