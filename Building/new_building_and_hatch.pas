@@ -316,19 +316,13 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if hposy>corypos then //штриховать
-				
-				if bposy>=0 then 
-					line(bposx,oy-2,bposx,bposy)
-				else
-					line(bposx,oy-2,bposx,0);
-				
-				line(rposx,oy-2,bposx,oy-2);
-				if (oy-2-coryp)>3 then
-					floodfill(bposx-3,oy-5,2)
+				if hposy>corypos then begin //штриховать
+					line(bposx,oy-2,bposx,bposy);
+					line(rposx,oy-2,bposx,oy-2);
+					floodfill(hposx,hposy,2);
+				end
 				else
 					fah:=true;
-					
 				
 			end
 			else begin
