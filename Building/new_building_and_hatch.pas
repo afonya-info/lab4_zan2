@@ -347,6 +347,10 @@ begin
 					bposy:=0;
 					outs:=true;
 				end;
+				if aposy<0 then begin
+					aposy:=0;
+					outs:=true;
+				end;
 				
 				hposx:=bposx-10;
 				hposy:=oy-12;
@@ -403,6 +407,10 @@ begin
 				//outtextxy(ox-100, oy+140,'bposy<0');
 					outs:=true;
 					bposy:=0;
+				end;
+				if aposy<0 then begin
+					aposy:=0;
+					outs:=true;
 				end;
 				hposx:=bposx-10;
 				hposy:=oy-12;
