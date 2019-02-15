@@ -307,7 +307,7 @@ procedure hatching(hsx, hsy: longint);
 	var
 		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
 		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
-		fah,outs:boolean;
+		fah,outs,amr:boolean;
 		txby,txa,txb:string;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
@@ -324,11 +324,37 @@ begin
 	setfillstyle(11,9);
 	pgmx:=getmaxx-ox;
 	xgmx:=cx*pgmx;
-	if a <=root then
+	
+	apx:=a/cx;
+	aposx:= ox + trunc(apx);
+	ay:=fun(a);
+	ayp:=ay/cy;
+	aposy:=trunc(-ayp) + oy;
+	
+	bpx:=b/cx;
+	bposx:=ox + trunc(bpx);
+	by:=fun(b);
+	byp:=by/cy;
+	bposy:=trunc(-byp) + oy;
+	
+	if a<=root then begin
+		aposx:=rposx;
+		amr:=true;
+		aposy:=oy;
+	end
+	else begin
+		amr:=false;
+	end;
+	if aposx<getmaxx then begin
+		fah:=false;
+	end
+	else
+		fah:=true;
+	if abs(aposx-bposx)>10 then begin
 		if b<=root then
 			fah:=true// привыводе текста проврека на флаг
 		else begin
-			fah:=false;
+
 			if b<=xgmx then begin
 				hxp:=b/cx; //<----  +
 				bposx:=ox + trunc(hxp);//<---- +
@@ -356,89 +382,23 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if (hposy>corypos)and(getpixel(hposx,hposy)<>2) then begin //штриховать
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) and (not fah)then begin //штриховать
 					line(bposx,oy-2,bposx,bposy);
-					line(rposx,oy-2,bposx,oy-2);
+					if a<=root then
+						line(rposx,oy-2,bposx,oy-2)
+					else begin
+						line(aposx,oy-2,aposx,aposy);
+						line(aposx,oy-2,bposx,oy-2);
+					end;
 					floodfill(hposx,hposy,2);
+					fah:=false;
 				end
 				else
 					fah:=true;
 		end
+	end
 	else begin
-		
-		apx:=a/cx;
-		aposx:= ox + trunc(apx);
-		ay:=fun(a);
-		ayp:=ay/cy;
-		aposy:=trunc(-ayp) + oy;
-		
-		bpx:=b/cx;
-		bposx:=ox + trunc(bpx);
-		by:=fun(b);
-		byp:=by/cy;
-		bposy:=trunc(-byp) + oy;
-		
-		if abs(aposx-bposx)>10 then begin
-			if aposx<getmaxx then begin
-				fah:=false;
-				//// -----для б----- 
-				//outtextxy(ox-100, oy+100,'a<getmaxx');
-				if bposx<=getmaxx then begin
-					//outtextxy(ox-100, oy+120,'bposx<getmaxx');
-					bpx:=b/cx; //<----  +
-					bposx:=ox + trunc(bpx);//<---- +
-					by:=fun(b);//<---- +
-				end
-				else begin
-					//outtextxy(ox-100, oy+120,'bposx>getmaxx');
-					bpx:=pgmx;
-					bposx:=getmaxx;
-					by:=fun(xgmx);
-					outs:=true;
-				end;
-				byp:=by/cy;
-				bposy:=trunc(-byp)+oy;
-				
-				if bposy<0 then begin
-				//outtextxy(ox-100, oy+140,'bposy<0');
-					outs:=true;
-					bposy:=0;
-				end;
-				hposx:=bposx-10;
-				hposy:=oy-12;
-				corhxp:=bpx-10;
-				corx:=cx*corhxp;
-				cory:=fun(corx);
-				coryp:=cory/cy;
-				corypos:=oy + trunc(-coryp);
-				
-				// -------для а--------
-				
-				
-				
-				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and((oy-2)>aposy) then begin
-					line(bposx,oy-2,bposx,bposy);
-					line(aposx,oy-2,aposx,aposy);
-					line(aposx,oy-2,bposx,oy-2);
-					floodfill(hposx,hposy,2);
-				end
-				else begin
-					//setcolor(4);
-					//outtextxy(ox-100, oy+160,'3 conditions');
-					fah:=true;
-				end;
-			end
-			else begin
-				fah:=true;
-				//setcolor(4);
-				//outtextxy(ox-100, oy+160,'aposx>=getmaxx');
-			end;
-		end
-		else begin
-			fah:=true;
-			//setcolor(4);
-			//outtextxy(ox-100, oy+160,'abs(aposx-bposx)<=10');
-		end;
+		fah:=true;
 	end;
 	if fah then begin
 		settextjustify(1, 2);
