@@ -449,7 +449,7 @@ begin
 		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
 		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
 	end;
-	if ((aposy<0)or outs)and not fah then begin
+	if (((aposy<0)and(aposx>=rposx))or outs)and not fah then begin
 		settextjustify(1,2);
 		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
 		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of');
