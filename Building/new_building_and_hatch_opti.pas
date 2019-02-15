@@ -374,6 +374,11 @@ begin
 					outs:=true;
 				end;
 				
+				if aposy<0 then begin
+					aposy:=0;
+					outs:=true;
+				end;
+				
 				hposx:=bposx-10;
 				hposy:=oy-12;
 				corhxp:=hxp-10;// дляпроверки штриховки
