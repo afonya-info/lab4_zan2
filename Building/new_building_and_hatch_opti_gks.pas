@@ -1,6 +1,6 @@
 ﻿program art;{$D+,L+}
 
-uses graph, wincrt, crt;
+uses graph, wincrt, crt,windows;
 
 const
   c = 5;
@@ -627,6 +627,7 @@ begin
   outmenu;
   repeat
     sym := readkey;
+		//if GetKeyState(Ord('A')) and $8000 > 0 then
     if sym = #0 then
     begin
       sym := readkey;
@@ -672,6 +673,6 @@ begin
       end;
       outmenu;
     end;
-  until sym = #27;
+  until GetKeyState(VK_ESCAPE) and $8000 > 0;
   
 end.
