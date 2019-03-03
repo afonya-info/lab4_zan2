@@ -305,17 +305,16 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
-		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
-		fah,outs,amr:boolean;
-		txby,txa,txb:string;
+		ayp, apx, ay, bpx, byp, rxp, by, cx, cy,hxp,corhxp,corx,cory,coryp: real;
+		aposx, aposy, bposx,bposy,rposx,pgmx,hposx,hposy,corypos: longint;
+		fah,amr:boolean;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
+	fah:=false;
 	
 	rxp:=root/cx;
 	rposx:=ox+trunc(rxp);
-	outs:=false;
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
@@ -323,7 +322,6 @@ begin
 	settextstyle(1, 0, 2);
 	setfillstyle(11,9);
 	pgmx:=getmaxx-ox;
-	xgmx:=cx*pgmx;
 	
 	apx:=a/cx;
 	aposx:= ox + trunc(apx);
@@ -345,40 +343,18 @@ begin
 	else begin
 		amr:=false;
 	end;
-	if aposx<getmaxx then begin
-		fah:=false;
-	end
-	else
+	
+	if (bposy<0)or(bposx>getmaxx)or(aposy<0)or(aposx>getmaxx) then begin
 		fah:=true;
-	if abs(aposx-bposx)>10 then begin
-		if b<=root then
-			fah:=true// привыводе текста проврека на флаг
-		else begin
-
-			if b<=xgmx then begin
-				hxp:=b/cx; //<----  +
-				bposx:=ox + trunc(hxp);//<---- +
-				hy:=fun(b);//<---- +
-			end
+	end
+	
+	else begin
+		if abs(aposx-bposx)>10 then begin
+			if b<=root then
+				fah:=true// привыводе текста проврека на флаг
 			else begin
-				bposx:=getmaxx;//<----minus
-				hy:=fun(xgmx);//<---- minus
-				hxp:=pgmx;//<---- minus
-				outs:=true;
-			end;
-				hyp:=hy/cy;
-				bposy:=trunc(-hyp) + oy;
 				
-				if bposy<0 then begin
-					bposy:=0;
-					outs:=true;
-				end;
-				
-				if aposy<0 then begin
-					aposy:=0;
-					outs:=true;
-				end;
-				
+				hxp:=b/cx;
 				hposx:=bposx-10;
 				hposy:=oy-12;
 				corhxp:=hxp-10;// дляпроверки штриховки
@@ -387,7 +363,7 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) and (not fah)then begin //штриховать
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) {and (not fah) }then begin //штриховать
 					line(bposx,oy-2,bposx,bposy);
 					if a<=root then
 						line(rposx,oy-2,bposx,oy-2)
@@ -400,11 +376,13 @@ begin
 				end
 				else
 					fah:=true;
+			end
 		end
-	end
-	else begin
-		fah:=true;
+		else begin
+			fah:=true;
+		end;
 	end;
+	
 	if fah then begin
 		settextjustify(1, 2);
 		settextstyle(1, 0, 2);
@@ -414,12 +392,7 @@ begin
 		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
 		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
 	end;
-	if (((aposy<0)and(aposx>=rposx))or outs)and not fah then begin
-		settextjustify(1,2);
-		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
-		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of');
-		outtextxy(trunc(ox/2)+ox, oy+140, 'calculating square');
-	end;
+	
 end;
 
 
@@ -479,19 +452,33 @@ begin
     
     lineto(posx, posy);
     
-  end;	
+  end;
   
 end;
 
-procedure plot;
+procedure taskis;
+
 var
-	ftask:boolean;
+	
+begin
+		settextjustify(1, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(ox,oy +50, 'hatch is not available');
+		outtextxy(ox),oy +120, ' at the current scale');
+		outtextxy(ox+trunc(ox/2),oy +140, 'or borders are too close');
+		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
+		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
+end;
+
+
+
+procedure plot;
 begin
   detectgraph(gd, gm);
   initgraph(gd, gm, '');
   ox := trunc(getmaxx / 2);
   oy := trunc(getmaxy / 2);
-  ftask:=false;
+  
   mx[0] := 1;
   my[0] := 100;
   
@@ -599,7 +586,26 @@ begin
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
 						end;
-
+				't':begin
+							inc(ftask);
+							if ftask then begin
+								taskis;
+							end
+							else begin
+								osi(mx[ix], my[iy]);
+								gra(mx[ix], my[iy]);
+							end;
+						end;
+				'T':begin
+							inc(ftask);
+							if ftask then begin
+								taskis;
+							end
+							else begin
+								osi(mx[ix], my[iy]);
+								gra(mx[ix], my[iy]);
+							end;
+						end;
 				//'Р': hatching(mx[ix], my[iy]);
 				//'р': hatching(mx[ix], my[iy]);
       end;
@@ -618,8 +624,7 @@ begin
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
   menu[5] := 'Exit';
-	a:=0;
-	b:=0;
+	b:=0;// чтобы не штриховало
   poz := 1;
   x := 3; y := 3;
   textattr := unpush;
