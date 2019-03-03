@@ -386,6 +386,7 @@ begin
 					fah:=true;
 				end;}
 				
+				hxp:=b/cx;
 				hposx:=bposx-10;
 				hposy:=oy-12;
 				corhxp:=hxp-10;// дляпроверки штриховки
@@ -394,7 +395,7 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) and (not fah) then begin //штриховать
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) {and (not fah) }then begin //штриховать
 					line(bposx,oy-2,bposx,bposy);
 					if a<=root then
 						line(rposx,oy-2,bposx,oy-2)
