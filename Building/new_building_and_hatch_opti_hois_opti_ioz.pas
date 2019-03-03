@@ -458,27 +458,33 @@ end;
 
 procedure taskis;
 
-var
+//var
 	
 begin
-		settextjustify(1, 2);
+		cleardevice;
+		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
-		outtextxy(ox,oy +50, 'hatch is not available');
-		outtextxy(ox),oy +120, ' at the current scale');
-		outtextxy(ox+trunc(ox/2),oy +140, 'or borders are too close');
-		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
-		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
+		setcolor(15);
+		outtextxy(ox-20,50, 'This program can:');
+		outtextxy(ox,120, chr(16)+'');
+		outtextxy(ox,140, chr(16) +'or borders are too close');
+		outtextxy(ox,160, chr(16)+' to each other');
+		outtextxy(ox,180, chr(16)+'or the square is absent');
 end;
 
 
 
 procedure plot;
+var ftask:boolean;
+		tasym:char;
 begin
   detectgraph(gd, gm);
   initgraph(gd, gm, '');
   ox := trunc(getmaxx / 2);
   oy := trunc(getmaxy / 2);
   
+	
+	ftask:=true;
   mx[0] := 1;
   my[0] := 100;
   
@@ -587,24 +593,22 @@ begin
             gra(mx[ix], my[iy]);
 						end;
 				't':begin
-							inc(ftask);
-							if ftask then begin
+							while not((tasym = #121) or (tasym = #89)) do begin
 								taskis;
-							end
-							else begin
-								osi(mx[ix], my[iy]);
-								gra(mx[ix], my[iy]);
+								tasym:=wincrt.readkey;
 							end;
+							tasym:='A';
+							osi(mx[ix], my[iy]);
+							gra(mx[ix], my[iy]);
 						end;
 				'T':begin
-							inc(ftask);
-							if ftask then begin
+							while not((tasym = #121) or (tasym = #89)) do begin
 								taskis;
-							end
-							else begin
-								osi(mx[ix], my[iy]);
-								gra(mx[ix], my[iy]);
+								tasym:=wincrt.readkey;
 							end;
+							tasym:='A';
+							osi(mx[ix], my[iy]);
+							gra(mx[ix], my[iy]);
 						end;
 				//'Р': hatching(mx[ix], my[iy]);
 				//'р': hatching(mx[ix], my[iy]);
