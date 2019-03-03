@@ -313,6 +313,7 @@ begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
 	hina:=true;
+	fah:=false;
 	
 	rxp:=root/cx;
 	rposx:=ox+trunc(rxp);
@@ -346,33 +347,34 @@ begin
 	else begin
 		amr:=false;
 	end;
-	if aposx<getmaxx then begin
-		fah:=false;
-	end
-	else begin
+	
+	if (bposy<0)or(bposx>getmaxx)or(aposy<0)or(aposx>getmaxx) then begin
 		fah:=true;
-	end;
-	if abs(aposx-bposx)>10 then begin
-		if b<=root then
-			fah:=true// привыводе текста проврека на флаг
-		else begin
-
-			if b<=xgmx then begin
-				hxp:=b/cx; //<----  +
-				bposx:=ox + trunc(hxp);//<---- +
-				hy:=fun(b);//<---- +
-			end
+	end
+	
+	else begin
+		if abs(aposx-bposx)>10 then begin
+			if b<=root then
+				fah:=true// привыводе текста проврека на флаг
 			else begin
-				bposx:=getmaxx;//<----minus
-				hy:=fun(xgmx);//<---- minus
-				hxp:=pgmx;//<---- minus
-				outs:=true;
-				fah:=true;
-			end;
-				hyp:=hy/cy;
-				bposy:=trunc(-hyp) + oy;
+
+				{if b<=xgmx then begin
+					hxp:=b/cx; //<----  +
+					bposx:=ox + trunc(hxp);//<---- +
+					hy:=fun(b);//<---- +
+				end
+				else begin
+					bposx:=getmaxx;//<----minus
+					hy:=fun(xgmx);//<---- minus
+					hxp:=pgmx;//<---- minus
+					outs:=true;
+					fah:=true;
+				end;
 				
-				if bposy<0 then begin
+				hyp:=hy/cy;
+				bposy:=trunc(-hyp) + oy;}
+				
+				{if bposy<0 then begin
 					bposy:=0;
 					outs:=true;
 					fah:=true;
@@ -382,7 +384,7 @@ begin
 					aposy:=0;
 					outs:=true;
 					fah:=true;
-				end;
+				end;}
 				
 				hposx:=bposx-10;
 				hposy:=oy-12;
@@ -405,11 +407,13 @@ begin
 				end
 				else
 					fah:=true;
+			end
 		end
-	end
-	else begin
-		fah:=true;
+		else begin
+			fah:=true;
+		end;
 	end;
+	
 	if fah then begin
 		settextjustify(1, 2);
 		settextstyle(1, 0, 2);
@@ -419,12 +423,7 @@ begin
 		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
 		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
 	end;
-	if (((aposy<0)and(aposx>=rposx))or outs)and not fah then begin
-		settextjustify(1,2);
-		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
-		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of');
-		outtextxy(trunc(ox/2)+ox, oy+140, 'calculating square');
-	end;
+	
 end;
 
 
