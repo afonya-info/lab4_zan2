@@ -91,7 +91,7 @@ begin
 		
     
   until res;
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -121,6 +121,7 @@ begin
   if (poz = 3) then begin
     writeln('relati2ve inaccuracy = ', d:5:5);
     writeln('absolute inaccuracy = ', absd:5:5, '%');
+		writeln('press enter to exit in main menu...');
     readln;
   end;
 end;
@@ -145,7 +146,7 @@ procedure outsquare;
 begin
   writeln('square calculated by software:', s:5:5, ' square units');
   writeln('square, calculated by analytic method:', snl:5:5, ' square units');
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -187,7 +188,7 @@ begin
 	setcolor(2);
 	setlinestyle(0,0,3);
 	rectangle(5,70,560,300);
-	setcolor(9);
+	setcolor(8);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
 	settextjustify(0, 2);
@@ -207,7 +208,7 @@ var
   tx,txa,txb: string;
 
 begin
-	setbkcolor(18);
+	setbkcolor(30);
   cleardevice;
   infa;
 	setcolor(6);
@@ -596,36 +597,34 @@ var
 	txstx,txstcolx,txstcoly,index,txsty,vmc:integer;
 	tasyk:char;
 	
-begin
-  detectgraph(gd, gm);
-  initgraph(gd, gm, '');
-		repeat 
-		settextjustify(1, 2);
-		settextstyle(1, 0, 3);
-		setcolor(6);
-		
-		txstx:=ox-200;
-		txsty:=oy-200;
-		txstcolx:=txstx+20;
-		txstcoly:=txsty+50;
-		index:=20;
-		vmc:=txstcolx+20;
-		outtextxy(ox,20, 'About the application');
-		settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		outtextxy(txstcolx,txstcoly, 'This app need for calculating the sguare of integration.');
-		outtextxy(txstcolx,txstcoly+round(index), 'Input: borders of integration and amount of splits');
-		outtextxy(txstcolx,txstcoly+round(index*2), 'Output: square below the curve calculated by medium ractangle method.');
-		outtextxy(txstcolx,txstcoly+round(index*3), 'Also the app calculate inaccuracy comparing squares ');
-		outtextxy(txstcolx,txstcoly+round(index*4), 'calculated by software method and analytic method by');
-		outtextxy(txstcolx,txstcoly+round(index*5), 'Program has visualization mode with following functions:');
-		outtextxy(vmc,txstcoly+round(index*6), #16+' scaling');
-		outtextxy(vmc,txstcoly+round(index*7), #16+' independent axis scaling');
-		outtextxy(vmc,txstcoly+round(index*8), #16+' hatch square if it belong the screen');
-		settextjustify(0, 0);
-		outtextxy(0,getmaxy,'press any key...');
-		until wincrt.readkey = #27;
-		closegraph;
+begin 
+	clrscr;
+	txstx:=ox-200;
+	txsty:=oy-200;
+	txstcolx:=txstx+20;
+	txstcoly:=txsty+50;
+	index:=20;
+	vmc:=txstcolx+20;
+	gotoxy(20,1);
+	writeln('ABOUT THE APPLICATION');
+	writeln;
+	writeln('    This app calculate square below the curve y:= 4*x^3-25*x^2+491*x-2134.');
+	writeln('    Calculation of definite integeral are performing numericaly');
+	writeln('  by medium ractangle method.');
+	writeln();
+	writeln('    Input: borders of integration and amount of splits'+#13#10+
+	'  Output: square below the curve calculated' +#13#10+
+	'  by medium ractangle method.' +#13#10+#13#10+
+	'  Also the app calculate inaccuracy comparing squares'+#13#10+
+	'  calculated by software method and analytic method by.');
+	writeln();
+	writeln('    Program has visualization mode with following functions:'+#13#10+
+	  '      '+#16+' scaling'+#13#10+
+		'      '+#16+' independent axis scaling'+#13#10+
+		'      '+#16+' hatch square if it belong the screen');
+	writeln;
+	writeln('Press enter to exit in main menu...');
+	readln;
 end;
 
 begin
