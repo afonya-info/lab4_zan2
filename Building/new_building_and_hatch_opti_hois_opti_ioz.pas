@@ -464,19 +464,23 @@ var
 begin
 		cleardevice;
 		settextjustify(0, 2);
-		settextstyle(1, 0, 2);
-		setcolor(15);
+		settextstyle(1, 0, 1);
+		setcolor(6);
 		
-		txstx:=ox-100;
+		txstx:=100;
 		txsty:=50;
 		txstcolx:=txstx+20;
 		txstcoly:=txsty+50;
-		index:=20;
+		index:=10;
 		outtextxy(txstx,50, 'About the app');
 		outtextxy(txstcolx,txstcoly, 'This app need for calculating the sguare of integration.');
 		outtextxy(txstcolx,txstcoly+round(index), 'Input: borders of integration and amount of splits');
-		outtextxy(txstcolx,txstcoly+round(index*2), 'Output: square below the curve calculated by medium ractangle method');
-		outtextxy(txstcolx,txstcoly+round(index*3), 'or the square is absent');
+		outtextxy(txstcolx,txstcoly+round(index*2), 'Output: square below the curve calculated by medium ractangle method.');
+		outtextxy(txstcolx,txstcoly+round(index*3), 'Also the app calculate inaccuracy comparing squares ');
+		outtextxy(txstcolx,txstcoly+round(index*4), 'calculated by softwaremethod and analytic method by');
+		outtextxy(txstcolx,txstcoly+round(index*4), 'Program has visualization mode which can:');
+		
+		
 end;
 
 
