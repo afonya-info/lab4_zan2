@@ -305,10 +305,9 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
-		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
-		fah,outs,amr,hina:boolean;
-		txby,txa,txb:string;
+		ayp, apx, ay, bpx, byp, rxp, by, cx, cy,hxp,corhxp,corx,cory,coryp: real;
+		aposx, aposy, bposx,bposy,rposx,pgmx,hposx,hposy,corypos: longint;
+		fah,amr:boolean;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
@@ -325,7 +324,6 @@ begin
 	settextstyle(1, 0, 2);
 	setfillstyle(11,9);
 	pgmx:=getmaxx-ox;
-	xgmx:=cx*pgmx;
 	
 	apx:=a/cx;
 	aposx:= ox + trunc(apx);
@@ -357,34 +355,6 @@ begin
 			if b<=root then
 				fah:=true// привыводе текста проврека на флаг
 			else begin
-
-				{if b<=xgmx then begin
-					hxp:=b/cx; //<----  +
-					bposx:=ox + trunc(hxp);//<---- +
-					hy:=fun(b);//<---- +
-				end
-				else begin
-					bposx:=getmaxx;//<----minus
-					hy:=fun(xgmx);//<---- minus
-					hxp:=pgmx;//<---- minus
-					outs:=true;
-					fah:=true;
-				end;
-				
-				hyp:=hy/cy;
-				bposy:=trunc(-hyp) + oy;}
-				
-				{if bposy<0 then begin
-					bposy:=0;
-					outs:=true;
-					fah:=true;
-				end;
-				
-				if aposy<0 then begin
-					aposy:=0;
-					outs:=true;
-					fah:=true;
-				end;}
 				
 				hxp:=b/cx;
 				hposx:=bposx-10;
@@ -624,8 +594,7 @@ begin
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
   menu[5] := 'Exit';
-	a:=0;
-	b:=0;
+	b:=0;// чтобы не штриховало
   poz := 1;
   x := 3; y := 3;
   textattr := unpush;
