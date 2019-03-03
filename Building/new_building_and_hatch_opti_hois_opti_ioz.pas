@@ -188,7 +188,7 @@ begin
 	setcolor(2);
 	setlinestyle(0,0,3);
 	rectangle(5,70,560,300);
-	setcolor(8);
+	setcolor(9);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
 	settextjustify(0, 2);
