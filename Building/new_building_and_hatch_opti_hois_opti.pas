@@ -311,12 +311,10 @@ procedure hatching(hsx, hsy: longint);
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
-	hina:=true;
 	fah:=false;
 	
 	rxp:=root/cx;
 	rposx:=ox+trunc(rxp);
-	outs:=false;
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
