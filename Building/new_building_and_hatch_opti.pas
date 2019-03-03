@@ -479,21 +479,34 @@ begin
     
     lineto(posx, posy);
     
-  end;
-  
-  {hx := scx;
-  hy := scy;
-  hatching(hx, hy);}
+  end;	
   
 end;
 
+
+procedure taskis;
+
+var
+	
+begin
+		settextjustify(1, 2);
+		settextstyle(1, 0, 2);
+		outtextxy(ox,oy +50, 'hatch is not available');
+		outtextxy(ox),oy +120, ' at the current scale');
+		outtextxy(ox+trunc(ox/2),oy +140, 'or borders are too close');
+		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
+		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
+end;
+
 procedure plot;
+var
+	ftask:boolean;
 begin
   detectgraph(gd, gm);
   initgraph(gd, gm, '');
   ox := trunc(getmaxx / 2);
   oy := trunc(getmaxy / 2);
-  
+  ftask:=false;
   mx[0] := 1;
   my[0] := 100;
   
@@ -600,6 +613,26 @@ begin
             iy := yarr;
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
+						end;
+				't':begin
+							inc(ftask);
+							if ftask then begin
+								taskis;
+							end
+							else begin
+								osi(mx[ix], my[iy]);
+								gra(mx[ix], my[iy]);
+							end;
+						end;
+				'T':begin
+							inc(ftask);
+							if ftask then begin
+								taskis;
+							end
+							else begin
+								osi(mx[ix], my[iy]);
+								gra(mx[ix], my[iy]);
+							end;
 						end;
 				//'Р': hatching(mx[ix], my[iy]);
 				//'р': hatching(mx[ix], my[iy]);
