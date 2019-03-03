@@ -458,18 +458,25 @@ end;
 
 procedure taskis;
 
-//var
+var
+	txstx,txstcolx,txstcoly,index,txsty:integer;
 	
 begin
 		cleardevice;
 		settextjustify(0, 2);
 		settextstyle(1, 0, 2);
 		setcolor(15);
-		outtextxy(ox-20,50, 'This program can:');
-		outtextxy(ox,120, chr(16)+'');
-		outtextxy(ox,140, chr(16) +'or borders are too close');
-		outtextxy(ox,160, chr(16)+' to each other');
-		outtextxy(ox,180, chr(16)+'or the square is absent');
+		
+		txstx:=ox-100;
+		txsty:=50;
+		txstcolx:=txstx+20;
+		txstcoly:=txsty+50;
+		index:=20;
+		outtextxy(txstx,50, 'About the app');
+		outtextxy(txstcolx,txstcoly, 'This app need for calculating the sguare of integration.');
+		outtextxy(txstcolx,txstcoly+round(index), 'Input: borders of integration and amount of splits');
+		outtextxy(txstcolx,txstcoly+round(index*2), 'Output: square below the curve calculated by medium ractangle method');
+		outtextxy(txstcolx,txstcoly+round(index*3), 'or the square is absent');
 end;
 
 
@@ -628,8 +635,10 @@ begin
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
   menu[5] := 'Exit';
+	a:=0;
 	b:=0;// чтобы не штриховало
-  poz := 1;
+  step:=1;
+	poz := 1;
   x := 3; y := 3;
   textattr := unpush;
   outmenu;
