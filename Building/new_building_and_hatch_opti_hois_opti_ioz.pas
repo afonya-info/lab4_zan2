@@ -3,7 +3,7 @@
 uses graph, wincrt, crt;
 
 const
-  c = 5;
+  c = 6;
   push = 112;
   unpush = 15;
   backcol = 7;
@@ -91,7 +91,7 @@ begin
 		
     
   until res;
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -121,6 +121,7 @@ begin
   if (poz = 3) then begin
     writeln('relati2ve inaccuracy = ', d:5:5);
     writeln('absolute inaccuracy = ', absd:5:5, '%');
+		writeln('press enter to exit in main menu...');
     readln;
   end;
 end;
@@ -145,7 +146,7 @@ procedure outsquare;
 begin
   writeln('square calculated by software:', s:5:5, ' square units');
   writeln('square, calculated by analytic method:', snl:5:5, ' square units');
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -187,7 +188,7 @@ begin
 	setcolor(2);
 	setlinestyle(0,0,3);
 	rectangle(5,70,560,300);
-	setcolor(15);
+	setcolor(9);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
 	settextjustify(0, 2);
@@ -207,10 +208,12 @@ var
   tx,txa,txb: string;
 
 begin
+	setbkcolor(30);
   cleardevice;
   infa;
+	setcolor(6);
   setlinestyle(0, 0, 3);
-  setcolor(15);
+
   line(0, oy, getmaxx, oy);
   line(ox, 0, ox, getmaxy);
   
@@ -305,17 +308,16 @@ end;
 procedure hatching(hsx, hsy: longint);
   
 	var
-		axp, ayp, apx, ay, bpx, byp, bgx, rxp,by, cx, cy,xgmx,hxp,hy,hyp,corhxp,corx,cory,coryp: real;
-		aposx, aposy, bposx,bposy,rposx,mbposy,pgmx,hposx,hposy,corypos: longint;
-		fah,outs,amr:boolean;
-		txby,txa,txb:string;
+		ayp, apx, ay, bpx, byp, rxp, by, cx, cy,hxp,corhxp,corx,cory,coryp: real;
+		aposx, aposy, bposx,bposy,rposx,pgmx,hposx,hposy,corypos: longint;
+		fah,amr:boolean;
 begin
 	cx := hsx / mashpix;//шаг mashpix пикселей в одном делении
   cy := hsy / mashpix;//шаг
+	fah:=false;
 	
 	rxp:=root/cx;
 	rposx:=ox+trunc(rxp);
-	outs:=false;
 	
 	setlinestyle(0,0,1);
 	setcolor(2);
@@ -323,7 +325,6 @@ begin
 	settextstyle(1, 0, 2);
 	setfillstyle(11,9);
 	pgmx:=getmaxx-ox;
-	xgmx:=cx*pgmx;
 	
 	apx:=a/cx;
 	aposx:= ox + trunc(apx);
@@ -345,40 +346,18 @@ begin
 	else begin
 		amr:=false;
 	end;
-	if aposx<getmaxx then begin
-		fah:=false;
-	end
-	else
+	
+	if (bposy<0)or(bposx>getmaxx)or(aposy<0)or(aposx>getmaxx) then begin
 		fah:=true;
-	if abs(aposx-bposx)>10 then begin
-		if b<=root then
-			fah:=true// привыводе текста проврека на флаг
-		else begin
-
-			if b<=xgmx then begin
-				hxp:=b/cx; //<----  +
-				bposx:=ox + trunc(hxp);//<---- +
-				hy:=fun(b);//<---- +
-			end
+	end
+	
+	else begin
+		if abs(aposx-bposx)>10 then begin
+			if b<=root then
+				fah:=true// привыводе текста проврека на флаг
 			else begin
-				bposx:=getmaxx;//<----minus
-				hy:=fun(xgmx);//<---- minus
-				hxp:=pgmx;//<---- minus
-				outs:=true;
-			end;
-				hyp:=hy/cy;
-				bposy:=trunc(-hyp) + oy;
 				
-				if bposy<0 then begin
-					bposy:=0;
-					outs:=true;
-				end;
-				
-				if aposy<0 then begin
-					aposy:=0;
-					outs:=true;
-				end;
-				
+				hxp:=b/cx;
 				hposx:=bposx-10;
 				hposy:=oy-12;
 				corhxp:=hxp-10;// дляпроверки штриховки
@@ -387,7 +366,7 @@ begin
 				coryp:=cory/cy;// штриховать если |oy-2-coryp|>3
 				corypos:=oy + trunc(-coryp);// позиция функции над позицией штризовки
 				
-				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) and (not fah)then begin //штриховать
+				if (hposy>corypos)and(getpixel(hposx,hposy)<>2)and(((oy-2)>aposy)or(amr)) {and (not fah) }then begin //штриховать
 					line(bposx,oy-2,bposx,bposy);
 					if a<=root then
 						line(rposx,oy-2,bposx,oy-2)
@@ -400,11 +379,13 @@ begin
 				end
 				else
 					fah:=true;
+			end
 		end
-	end
-	else begin
-		fah:=true;
+		else begin
+			fah:=true;
+		end;
 	end;
+	
 	if fah then begin
 		settextjustify(1, 2);
 		settextstyle(1, 0, 2);
@@ -414,12 +395,7 @@ begin
 		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
 		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
 	end;
-	if (((aposy<0)and(aposx>=rposx))or outs)and not fah then begin
-		settextjustify(1,2);
-		outtextxy(trunc(ox/2)+ox, oy+100, 'hatched area is');
-		outtextxy(trunc(ox/2)+ox, oy+120, 'only a part of');
-		outtextxy(trunc(ox/2)+ox, oy+140, 'calculating square');
-	end;
+	
 end;
 
 
@@ -479,19 +455,25 @@ begin
     
     lineto(posx, posy);
     
-  end;	
+  end;
   
 end;
 
+
+
+
+
 procedure plot;
-var
-	ftask:boolean;
+var ftask:boolean;
+		tasym:char;
 begin
   detectgraph(gd, gm);
   initgraph(gd, gm, '');
   ox := trunc(getmaxx / 2);
   oy := trunc(getmaxy / 2);
-  ftask:=false;
+  
+	
+	ftask:=true;
   mx[0] := 1;
   my[0] := 100;
   
@@ -599,7 +581,6 @@ begin
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
 						end;
-
 				//'Р': hatching(mx[ix], my[iy]);
 				//'р': hatching(mx[ix], my[iy]);
       end;
@@ -610,6 +591,42 @@ begin
 end;
 
 
+procedure taskis;
+
+var
+	txstx,txstcolx,txstcoly,index,txsty,vmc:integer;
+	tasyk:char;
+	
+begin 
+	clrscr;
+	txstx:=ox-200;
+	txsty:=oy-200;
+	txstcolx:=txstx+20;
+	txstcoly:=txsty+50;
+	index:=20;
+	vmc:=txstcolx+20;
+	gotoxy(20,1);
+	writeln('ABOUT THE APPLICATION');
+	writeln;
+	writeln('    This app calculate square below the curve y:= 4*x^3-25*x^2+491*x-2134.');
+	writeln('    Calculation of definite integeral are performing numericaly');
+	writeln('  by medium ractangle method.');
+	writeln();
+	writeln('    Input: borders of integration and amount of splits'+#13#10+
+	'  Output: square below the curve calculated' +#13#10+
+	'  by medium ractangle method.' +#13#10+#13#10+
+	'  Also the app calculate inaccuracy comparing squares'+#13#10+
+	'  calculated by software method and analytic method by.');
+	writeln();
+	writeln('    Program has visualization mode with following functions:'+#13#10+
+	  '      '+#16+' scaling'+#13#10+
+		'      '+#16+' independent axis scaling'+#13#10+
+		'      '+#16+' hatch square if it belong the screen');
+	writeln;
+	writeln('Press enter to exit in main menu...');
+	readln;
+end;
+
 begin
   //textbackground(7);
   clrscr;
@@ -617,10 +634,12 @@ begin
   menu[2] := 'The area value calculated by software and analytical method by';
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
-  menu[5] := 'Exit';
+  menu[5] := 'Information about the task';
+	menu[6] := 'Exit';
 	a:=0;
-	b:=0;
-  poz := 1;
+	b:=0;// чтобы не штриховало
+  step:=1;
+	poz := 1;
   x := 3; y := 3;
   textattr := unpush;
   outmenu;
@@ -667,7 +686,8 @@ begin
         2: calsquare;
         3: inaccuracy;
         4: plot;
-        5: sym := #27;
+				5: taskis;
+        6: sym := #27;
       end;
       outmenu;
     end;
