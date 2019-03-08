@@ -1,6 +1,6 @@
 ﻿program art;{$D+,L+}
 
-uses graph, wincrt, crt;
+uses windows,graph, wincrt, crt;
 
 const
   c = 6;
@@ -638,15 +638,12 @@ begin
   x := 3; y := 3;
   textattr := unpush;
   outmenu;
-  repeat
-    sym := readkey;
-    if sym = #0 then
-    begin
-      sym := readkey;
-      case sym of
-        #80:
-          if poz < c then
+	
+	repeat
+		if GetKeyState(vk_down) and $8000 > 0 then 
+			if poz < c then
           begin
+						delay(150);
             gotoxy(x, y + poz - 1);
             write(menu[poz]);
             inc(poz);
@@ -655,9 +652,10 @@ begin
             write(menu[poz]);
             textattr := unpush;
           end;
-        #72:
-          if poz > 1 then
+		if GetKeyState(vk_up) and $8000 > 0 then 
+			if poz > 1 then
           begin
+						delay(150);
             gotoxy(x, y + poz - 1);
             write(menu[poz]);
             textattr := push;
@@ -666,12 +664,10 @@ begin
             write(menu[poz]);
             textattr := unpush;
           end;
-      end;
-    end
-    else
-    if sym = #13 then
-    begin
-      case poz of
+		if GetKeyState(vk_return) and $8000 > 0 then
+		begin
+			delay(150);
+			case poz of
         1:	
           begin
             enterborders;
@@ -685,7 +681,7 @@ begin
         6: sym := #27;
       end;
       outmenu;
-    end;
-  until sym = #27;
+		end;
+	until (GetKeyState(vk_escape) and $8000) > 0;
   
 end.
