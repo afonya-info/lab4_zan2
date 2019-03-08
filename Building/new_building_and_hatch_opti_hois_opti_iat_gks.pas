@@ -393,6 +393,8 @@ begin
 		outtextxy(ox+trunc(ox/2),oy +140, 'or borders are too close');
 		outtextxy(ox+trunc(ox/2),oy +160,' to each other');
 		outtextxy(ox+trunc(ox/2),oy +180, 'or the square is absent');
+		outtextxy(ox+trunc(ox/2),oy +200, 'or the square doesn`t ');
+		outtextxy(ox+trunc(ox/2),oy +220, 'belong the screen');
 	end;
 	
 end;
