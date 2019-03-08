@@ -3,7 +3,7 @@ program art;{$D+,L+}
 uses graph, wincrt, crt;
 
 const
-  c = 5;
+  c = 6;
   push = 112;
   unpush = 15;
   backcol = 7;
@@ -91,7 +91,7 @@ begin
 		
     
   until res;
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -121,6 +121,7 @@ begin
   if (poz = 3) then begin
     writeln('relati2ve inaccuracy = ', d:5:5);
     writeln('absolute inaccuracy = ', absd:5:5, '%');
+		writeln('press enter to exit in main menu...');
     readln;
   end;
 end;
@@ -145,7 +146,7 @@ procedure outsquare;
 begin
   writeln('square calculated by software:', s:5:5, ' square units');
   writeln('square, calculated by analytic method:', snl:5:5, ' square units');
-  writeln('press any key');
+  writeln('press enter to exit in main menu...');
   readln;
 end;
 
@@ -187,7 +188,7 @@ begin
 	setcolor(2);
 	setlinestyle(0,0,3);
 	rectangle(5,70,560,300);
-	setcolor(15);
+	setcolor(9);
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
 	settextjustify(0, 2);
@@ -207,10 +208,12 @@ var
   tx,txa,txb: string;
 
 begin
+	setbkcolor(30);
   cleardevice;
   infa;
+	setcolor(6);
   setlinestyle(0, 0, 3);
-  setcolor(15);
+
   line(0, oy, getmaxx, oy);
   line(ox, 0, ox, getmaxy);
   
@@ -454,19 +457,23 @@ begin
     
   end;
   
-  {hx := scx;
-  hy := scy;
-  hatching(hx, hy);}
-  
 end;
 
+
+
+
+
 procedure plot;
+var ftask:boolean;
+		tasym:char;
 begin
   detectgraph(gd, gm);
   initgraph(gd, gm, '');
   ox := trunc(getmaxx / 2);
   oy := trunc(getmaxy / 2);
   
+	
+	ftask:=true;
   mx[0] := 1;
   my[0] := 100;
   
@@ -584,6 +591,42 @@ begin
 end;
 
 
+procedure taskis;
+
+var
+	txstx,txstcolx,txstcoly,index,txsty,vmc:integer;
+	tasyk:char;
+	
+begin 
+	clrscr;
+	txstx:=ox-200;
+	txsty:=oy-200;
+	txstcolx:=txstx+20;
+	txstcoly:=txsty+50;
+	index:=20;
+	vmc:=txstcolx+20;
+	gotoxy(20,1);
+	writeln('ABOUT THE APPLICATION');
+	writeln;
+	writeln('    This app calculate square below the curve y:= 4*x^3-25*x^2+491*x-2134.');
+	writeln('    Calculation of definite integeral are performing numericaly');
+	writeln('  by medium ractangle method.');
+	writeln();
+	writeln('    Input: borders of integration and amount of splits'+#13#10+
+	'  Output: square below the curve calculated' +#13#10+
+	'  by medium ractangle method.' +#13#10+#13#10+
+	'  Also the app calculate inaccuracy comparing squares'+#13#10+
+	'  calculated by software method and analytic method by.');
+	writeln();
+	writeln('    Program has visualization mode with following functions:'+#13#10+
+	  '      '+#16+' scaling'+#13#10+
+		'      '+#16+' independent axis scaling'+#13#10+
+		'      '+#16+' hatch square if it belong the screen');
+	writeln;
+	writeln('Press enter to exit in main menu...');
+	readln;
+end;
+
 begin
   //textbackground(7);
   clrscr;
@@ -591,9 +634,12 @@ begin
   menu[2] := 'The area value calculated by software and analytical method by';
   menu[3] := 'The inaccuracy of calculation: single and absolute';
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
-  menu[5] := 'Exit';
+  menu[5] := 'Information about the task';
+	menu[6] := 'Exit';
+	a:=0;
 	b:=0;// чтобы не штриховало
-  poz := 1;
+  step:=1;
+	poz := 1;
   x := 3; y := 3;
   textattr := unpush;
   outmenu;
@@ -640,7 +686,8 @@ begin
         2: calsquare;
         3: inaccuracy;
         4: plot;
-        5: sym := #27;
+				5: taskis;
+        6: sym := #27;
       end;
       outmenu;
     end;
