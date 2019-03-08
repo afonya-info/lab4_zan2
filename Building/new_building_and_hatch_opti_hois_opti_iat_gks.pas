@@ -29,6 +29,7 @@ var
 	gd,gm:integer;
   a, b,  step,n, w, t, s, snl, d, absd, plos, zn: real;
   cg: char;
+	fup,freturn,fdown:boolean;
 
 function fun(funx: real): real;
 begin
@@ -192,7 +193,7 @@ begin
 	settextjustify(1, 2);
 	outtextxy(trunc(555/2), 80, 'INSTRUCTION');
 	settextjustify(0, 2);
-	outtextxy(10, 120, 'H or h - hatching');
+	outtextxy(10, 120, '5 - hatching');
 	outtextxy(10, 140, '+/- - change scale');
 	outtextxy(10, 160, #24+'/'+#25+' - independent Y axis` scaling');
 	outtextxy(10, 180, #26+'/'+#27+' - independent X axis` scaling');
@@ -455,9 +456,6 @@ begin
     
   end;
   
-  {hx := scx;
-  hy := scy;
-  hatching(hx, hy);}
   
 end;
 
@@ -489,14 +487,14 @@ begin
   iy := npy;
   osi(mx[ix], my[iy]);
   gra(mx[ix], my[iy]);
-  
-  repeat
+	
+	
+ repeat
     cg := wincrt.readkey;
     if cg = #0 then
     begin
       cg := wincrt.readkey;
-      case cg of
-        #75:	
+				if (cg = #75) and (GetKeyState(vk_left) and $8000 > 0) then 
           begin// стр влево растяжение
             if (ix - 1) >= 0 then begin
               dec(ix);
@@ -504,7 +502,7 @@ begin
               gra(mx[ix], my[iy]);
             end;									
           end;
-        #77:	
+        if (cg = #77) and (GetKeyState(vk_right) and $8000 > 0) then
           begin// вправо
             if (ix + 1) <=  xarr then begin
               inc(ix);
@@ -512,7 +510,7 @@ begin
               gra(mx[ix], my[iy]);
             end;
           end;
-        #72:	
+        if (cg = #72) and (GetKeyState(vk_up) and $8000 > 0) then
           begin//вверх
             if (iy - 1) >= 0 then begin
               dec(iy);
@@ -521,7 +519,7 @@ begin
             end;
             
           end;
-        #80:	
+        if (cg = #80) and (GetKeyState(vk_down) and $8000 > 0) then	
           begin//вниз
             if (iy + 1) <= yarr then begin
               inc(iy);
@@ -530,7 +528,7 @@ begin
             end;
             
           end;
-        #83:	
+        if (cg = #83) and (GetKeyState(VK_DELETE) and $8000 > 0) then
           begin// del нормальный масштаб
             ix := npx;
             iy := npy;
@@ -538,47 +536,43 @@ begin
             osi(mx[ix], my[iy]);
             gra(mx[ix], my[iy]);
           end;
-      end;
-    end
-  		else
-    begin
-      case cg of
-        '+':	
-          begin
-            if ((ix - 1) >= 0) and ((iy - 1) >= 0) then begin
-              dec(ix);
-              dec(iy);
-              osi(mx[ix], my[iy]);
-              gra(mx[ix], my[iy]);
-            end;
-          end;
-        '-':	
-          begin
-            if ((ix + 1) <=  xarr) and ((iy + 1) <= yarr) then begin
-              inc(ix);
-              inc(iy);
-              osi(mx[ix], my[iy]);
-              gra(mx[ix], my[iy]);							
-            end;
-          end;
-				'h': hatching(mx[ix], my[iy]);
-				'H': hatching(mx[ix], my[iy]);
-				'0':begin// сброс на минимум
-						ix := 0;
-            iy := 0;
-            osi(mx[ix], my[iy]);
-            gra(mx[ix], my[iy]);
-						end;
-				'9':begin// сброс на минимум
-						ix := xarr;
-            iy := yarr;
-            osi(mx[ix], my[iy]);
-            gra(mx[ix], my[iy]);
-						end;
-				//'Р': hatching(mx[ix], my[iy]);
-				//'р': hatching(mx[ix], my[iy]);
-      end;
     end;
+		
+		if (cg = '+') and (GetKeyState(VK_add) and $8000 > 0) then
+			begin
+				if ((ix - 1) >= 0) and ((iy - 1) >= 0) then begin
+					dec(ix);
+					dec(iy);
+					osi(mx[ix], my[iy]);
+					gra(mx[ix], my[iy]);
+				end;
+			end;
+		if (cg = '-') and (GetKeyState(VK_SUBTRACT) and $8000 > 0) then
+			begin
+				if ((ix + 1) <=  xarr) and ((iy + 1) <= yarr) then begin
+					inc(ix);
+					inc(iy);
+					osi(mx[ix], my[iy]);
+					gra(mx[ix], my[iy]);							
+				end;
+			end;
+		if (cg = '5') and (GetKeyState(VK_NUMPAD5) and $8000 > 0) then
+			hatching(mx[ix], my[iy]);
+			
+		if (cg = '0') and (GetKeyState(VK_NUMPAD0) and $8000 > 0) then
+			begin// сброс на минимум
+				ix := 0;
+				iy := 0;
+				osi(mx[ix], my[iy]);
+				gra(mx[ix], my[iy]);
+				end;
+		if (cg = '9') and (GetKeyState(VK_NUMPAD9) and $8000 > 0) then
+			begin// сброс на минимум
+				ix := xarr;
+				iy := yarr;
+				osi(mx[ix], my[iy]);
+				gra(mx[ix], my[iy]);
+				end;
   until cg = #27;
   
   closegraph;
@@ -631,6 +625,7 @@ begin
   menu[4] := 'Plotting the graph of function y:= 4*x^3-25*x^2+491*x-2134';
   menu[5] := 'Information about the task';
 	menu[6] := 'Exit';
+	
 	a:=0;
 	b:=0;// чтобы не штриховало
 	step:=1;
@@ -640,33 +635,35 @@ begin
   outmenu;
 	
 	repeat
-		if GetKeyState(vk_down) and $8000 > 0 then 
-			if poz < c then
-          begin
-						delay(150);
-            gotoxy(x, y + poz - 1);
-            write(menu[poz]);
-            inc(poz);
-            textattr := push;
-            gotoxy(x, y + poz - 1);
-            write(menu[poz]);
-            textattr := unpush;
-          end;
-		if GetKeyState(vk_up) and $8000 > 0 then 
-			if poz > 1 then
-          begin
-						delay(150);
-            gotoxy(x, y + poz - 1);
-            write(menu[poz]);
-            textattr := push;
-            dec(poz);
-            gotoxy(x, y + poz - 1);
-            write(menu[poz]);
-            textattr := unpush;
-          end;
-		if GetKeyState(vk_return) and $8000 > 0 then
+		sym := readkey;
+		if sym = #0 then 
 		begin
-			delay(150);
+			sym := readkey;
+			if (GetKeyState(vk_down) and $8000 > 0) and (sym = #80) then
+				if poz < c then
+						begin
+							gotoxy(x, y + poz - 1);
+							write(menu[poz]);
+							inc(poz);
+							textattr := push;
+							gotoxy(x, y + poz - 1);
+							write(menu[poz]);
+							textattr := unpush;
+						end;
+			if (GetKeyState(vk_up) and $8000 > 0) and (sym = #72) then
+				if poz > 1 then
+						begin
+							gotoxy(x, y + poz - 1);
+							write(menu[poz]);
+							textattr := push;
+							dec(poz);
+							gotoxy(x, y + poz - 1);
+							write(menu[poz]);
+							textattr := unpush;
+						end;
+		end;
+		if (GetKeyState(vk_return) and $8000 > 0) and (sym = #13) then 
+		begin
 			case poz of
         1:	
           begin
@@ -682,6 +679,6 @@ begin
       end;
       outmenu;
 		end;
-	until (GetKeyState(vk_escape) and $8000) > 0;
+	until (sym = #27);
   
 end.

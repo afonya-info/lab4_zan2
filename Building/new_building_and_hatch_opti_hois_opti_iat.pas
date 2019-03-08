@@ -24,11 +24,10 @@ var
   mx: masx;// вспомогательный массив для масшатбов
   my: masy;
   menu: armen;
-  sym: char;
+  sym,cg: char;
   poz, x, y, ox, oy, i, ix, iy, xamo: longint;
 	gd,gm:integer;
   a, b,  step,n, w, t, s, snl, d, absd, plos, zn: real;
-  cg: char;
 
 function fun(funx: real): real;
 begin
