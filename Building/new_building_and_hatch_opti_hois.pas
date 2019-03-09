@@ -375,7 +375,7 @@ begin
 				if bposy<0 then begin
 					bposy:=0;
 					outs:=true;
-					fah:=true;
+					fah:=true; 
 				end;
 				
 				if aposy<0 then begin
